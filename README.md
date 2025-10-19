@@ -141,7 +141,15 @@ Las rutas bajo `/admin/*` están protegidas con `ProtectedRoute`, que redirige a
 - Filtro por categoría vacío: mantener p.category en EN y mostrar categoryEs
 
 - Errores aleatorios: borrar node_modules y reinstalar dependencias
+  
+## 🌐 Clonar y correr local
 
+```bash
+git clone https://github.com/DelcyVillalba/Chic-Tech-E-commerce-en-React
+cd Chic-Tech-E-commerce-en-React
+npm install
+npm run dev
+```
 ---
 ## 👩‍💻 Autora
 
