@@ -1,0 +1,23 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build / temporales
+dist/
+.vite/
+coverage/
+.DS_Store
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editor / SO
+.vscode/
+.idea/
+*.swp
+Thumbs.db
