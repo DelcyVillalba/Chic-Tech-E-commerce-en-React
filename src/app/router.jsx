@@ -8,6 +8,9 @@ import Cart from "../pages/Cart";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import FAQ from "../pages/FAQ";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +20,9 @@ export const router = createBrowserRouter([
       { path: "/product/:id", element: <ProductDetail /> },
       { path: "/cart", element: <Cart /> },
       { path: "/login", element: <Login /> },
+      { path: "/sobre-nosotros", element: <About /> },
+      { path: "/contacto", element: <Contact /> },
+      { path: "/faq", element: <FAQ /> },
       {
         element: <ProtectedRoute />,
         children: [
