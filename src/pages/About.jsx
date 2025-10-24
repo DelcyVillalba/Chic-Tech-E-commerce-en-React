@@ -4,7 +4,7 @@ export default function About() {
       <h1 className="text-2xl font-semibold mb-3">Sobre nosotros</h1>
       <p className="mb-4 opacity-80">
         En <strong>Chic &amp; Tech</strong> combinamos moda y tecnología en un
-        solo lugar. Nuestro objetivo es ofrecer un catálogo curado con prendas,
+        solo lugar. Nuestro objetivo es ofrecer un catálogo seleccionado con prendas,
         accesorios, joyería y electrónica de calidad, con una experiencia de
         compra simple y ágil.
       </p>
