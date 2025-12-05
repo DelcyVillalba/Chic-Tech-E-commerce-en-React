@@ -1,0 +1,151 @@
+# 🛍️ Chic & Tech — E-commerce en React
+
+![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![Vite](https://img.shields.io/badge/Vite-Build-purple?logo=vite)
+![Tailwind](https://img.shields.io/badge/TailwindCSS-Utility--First-38B2AC?logo=tailwindcss)
+![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)
+
+Aplicación frontend del e-commerce **Chic & Tech**, construida con **React + Vite**, estilizada con **Tailwind CSS** e integrada a un backend propio desplegado en **Railway**.
+
+Incluye catálogo, filtros, detalle, carrito persistente, login simulado y panel Admin.
+
+---
+
+## ✨ Características principales
+
+- Catálogo con búsqueda, filtros, orden y paginación  
+- Detalle de producto + acción **“Agregar al carrito”**  
+- Carrito con subtotal, impuestos (21 %) y total  
+- Persistencia en **localStorage**  
+- Login simulado + rutas protegidas  
+- CRUD de productos en el módulo Admin  
+- UI responsive con Tailwind  
+  
+- Integración con backend real:
+```
+https://chic-tech-api-production.up.railway.app
+```
+---
+
+## ⚙️ Tecnologías
+
+- React 18  
+- React Router DOM 6  
+- Tailwind CSS  
+- Axios  
+- Context API (Auth + Cart)  
+- Vite 5  
+
+---
+
+## 📦 Requisitos
+
+- Node.js **18+**  
+- npm
+
+---
+
+## 🚀 Instalación y ejecución
+
+```
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+## 🌐 Variables de entorno
+Crear ```.env``` en la raíz:
+
+```
+VITE_API_URL=https://chic-tech-api-production.up.railway.app
+```
+
+### 🛣️ Rutas principales
+| Ruta                       | Descripción          | Icono |
+| -------------------------- | -------------------- | ----- |
+| `/`                        | Home + filtros       | 🏠     |
+| `/product/:id`             | Detalle de producto  | 🛍️     |
+| `/cart`                    | Carrito              | 🛒     |
+| `/login`                   | Inicio de sesión     | 🔐     |
+| `/admin/products`          | Panel Admin          | 🧭     |
+| `/admin/products/new`      | Crear producto       | ➕     |
+| `/admin/products/:id/edit` | Editar producto      | ✏️     |
+| `*`                        |404 Página no encontrada | ❌     |
+
+
+
+Rutas /admin/* protegidas por ProtectedRoute.
+
+## 🧱 Arquitectura del estado
+#### 🔐 AuthContext
+- login / logout
+- session persistida
+- protección de rutas
+
+#### 🛒 CartContext
+- agregar / quitar / modificar cantidades
+- persistencia en localStorage
+- cálculos derivados
+
+### 🔗 Comunicación con la API
+```src/api/client.js``` define Axios:
+
+```
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  timeout: 8000,
+});
+```
+
+#### Endpoints usados:
+
+- /products
+
+- /products/:id
+
+- /orders
+
+- /payments/simulado
+
+- /auth/login
+
+Backend oficial: Chic-Tech-API
+
+---
+
+#### 🎨 Estilos e i18n
+* Tailwind
+
+* Estilos globales en src/styles.css
+
+* Traducciones simples en src/i18n/es.js
+
+---
+
+## 🚀 Despliegue (Vercel)
+1. Importar repositorio
+
+2. Variables:
+
+```
+VITE_API_URL=https://chic-tech-api-production.up.railway.app
+```
+3. Deploy automático 🔥
+
+### 🧭 Troubleshooting
+* 404 en rutas SPA → Vercel maneja fallback automáticamente
+
+* Tailwind sin aplicar → revisar content[]
+
+* Error de red → revisar variable VITE_API_URL
+
+* Pantalla en blanco → plugin React faltante en Vite
+
+* Filtros vacíos → categorías deben mantenerse en inglés
+
+### 👩‍💻 Autora
+**Delcy Villalba** 
+E-commerce moderno con React, Vite y Tailwind.
+Proyecto TalentoTech · 2025 💛✨
+
