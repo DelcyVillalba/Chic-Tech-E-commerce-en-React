@@ -234,22 +234,22 @@ export default function Jardin() {
       <section className="max-w-6xl mx-auto px-4 py-10 grid gap-8 sm:grid-cols-2 md:grid-cols-4 text-sm text-gray-700 dark:text-gray-200">
         {[
           {
-            img: "public/assets/img/icon-img/support-1.png",
+            img: "public/assets/support-1.png",
             titulo: "Envío gratis",
             desc: "Envío gratuito en todos los pedidos.",
           },
           {
-            img: "public/assets/img/icon-img/support-2.png",
+            img: "public/assets/support-2.png",
             titulo: "Soporte 24/7",
             desc: "Estamos para ayudarte en lo que necesites.",
           },
           {
-            img: "public/assets/img/icon-img/support-3.png",
             titulo: "Devolución de dinero",
+            img: "public/assets/support-3.png",
             desc: "Comprá sin preocupaciones.",
           },
           {
-            img: "public/assets/img/icon-img/support-4.png",
+            img: "public/assets/support-4.png",
             titulo: "Descuento de pedido",
             desc: "Promos activas cada semana.",
           },

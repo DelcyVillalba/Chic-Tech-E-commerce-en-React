@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useProducts } from "../hooks/useProducts";
-import ProductCard from "../components/ProductCard";
-import Loader from "../components/Loader";
-import ErrorState from "../components/ErrorState";
 import CategoryCatalog from "../components/CategoryCatalog";
+import ErrorState from "../components/ErrorState";
+import Loader from "../components/Loader";
+import ProductCard from "../components/ProductCard";
 import SubscribeBanner from "../components/SubscribeBanner";
-
+import { useProducts } from "../hooks/useProducts";
 
 function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
   const calc = () => {
@@ -72,8 +71,11 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
           <button
             key={i}
             onClick={() => setPage(i)}
-            className={`h-2.5 w-2.5 rounded-full border ${i === page ? "bg-gray-800 border-gray-800" : "bg-white dark:bg-[#1c1828]"
-              }`}
+            className={`h-2.5 w-2.5 rounded-full border ${
+              i === page
+                ? "bg-gray-800 border-gray-800"
+                : "bg-white dark:bg-[#1c1828]"
+            }`}
             aria-label={`Ir a página ${i + 1}`}
           />
         ))}
@@ -88,7 +90,10 @@ export default function Hombre() {
   const [tab, setTab] = useState("recien");
   const catalogoId = "catalogo-hombre";
 
-  const recienLlegados = useMemo(() => data.slice().reverse().slice(0, 8), [data]);
+  const recienLlegados = useMemo(
+    () => data.slice().reverse().slice(0, 8),
+    [data]
+  );
   const masVendidos = useMemo(() => data.slice(0, 8), [data]);
   const enOferta = useMemo(() => data.slice(0, 8), [data]); // reemplazar si hay flag de oferta
   const tabs = [
@@ -219,22 +224,22 @@ export default function Hombre() {
       <section className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm text-gray-700 dark:text-gray-200">
         {[
           {
-            img: "public/assets/img/icon-img/support-1.png",
+            img: "public/assets/support-1.png",
             titulo: "Envío gratis",
             desc: "Envío gratuito en todos los pedidos.",
           },
           {
-            img: "public/assets/img/icon-img/support-2.png",
+            img: "public/assets/support-2.png",
             titulo: "Soporte 24/7",
             desc: "Estamos para ayudarte en lo que necesites.",
           },
           {
-            img: "public/assets/img/icon-img/support-3.png",
+            img: "public/assets/support-3.png",
             titulo: "Devolución de dinero",
             desc: "Comprá sin preocupaciones.",
           },
           {
-            img: "public/assets/img/icon-img/support-4.png",
+            img: "public/assets/support-4.png",
             titulo: "Descuento de pedido",
             desc: "Promos activas cada semana.",
           },

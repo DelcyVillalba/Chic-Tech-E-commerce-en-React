@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useBusinessSettings } from "../context/BusinessSettingsContext";
+import React, { useState, useEffect } from 'react';
 
 export default function WhatsAppButton() {
-    const [setShowScrollTop] = useState(false);
-    const { settings } = useBusinessSettings();
+    const [showScrollTop, setShowScrollTop] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -17,8 +15,6 @@ export default function WhatsAppButton() {
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
-    const phone = settings?.whatsappPhone || "5491123456789";
 
     return (
       <>
@@ -45,7 +41,7 @@ export default function WhatsAppButton() {
 
         {/* Botón de WhatsApp */}
         <a
-          href={`https://wa.me/${phone}`}
+          href="https://wa.me/5491123456789"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-24 right-6 bg-green-500 text-white rounded-full p-2 shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110 z-50 group"

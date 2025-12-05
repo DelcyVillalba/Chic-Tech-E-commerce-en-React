@@ -5,7 +5,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { useEffect, useState } from "react";
 import AdminLoginModal from "./AdminLoginModal";
 import ThemeToggle from "./ThemeToggle";
-const adminIcon = "/assets/img/icon-img/Admin.png";
+const adminIcon = "public/assets/img/icon-img/Admin.png";
 import { listOrders } from "../api/orders";
 
 const base = "px-2 py-1";
