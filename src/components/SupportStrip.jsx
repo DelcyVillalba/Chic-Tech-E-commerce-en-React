@@ -1,9 +1,25 @@
 export default function SupportStrip() {
     const items = [
-        { img: "src/public/assets/icon-img/support-1.png", title: "Envío gratis", desc: "Envío gratuito en todos los pedidos.", },
-        { img: "src/public/assets/icon-img/support-2.png", title: "Soporte 24/7", desc: "Estamos para ayudarte en lo que necesites.", },
-        { img: "src/public/assets/icon-img/support-3.png", title: "Devolución de dinero", desc: "Comprá sin preocupaciones.", },
-        { img: "src/public/assets/icon-img/support-4.png", title: "Descuento de pedido", desc: "Promos activas cada semana.", },
+      {
+        img: "public/assets/img/icon-img/support-1.png",
+        title: "Envío gratis",
+        desc: "Envío gratuito en todos los pedidos.",
+      },
+      {
+        img: "public/assets/img/icon-img/support-2.png",
+        title: "Soporte 24/7",
+        desc: "Estamos para ayudarte en lo que necesites.",
+      },
+      {
+        img: "public/assets/img/icon-img/support-3.png",
+        title: "Devolución de dinero",
+        desc: "Comprá sin preocupaciones.",
+      },
+      {
+        img: "public/assets/img/icon-img/support-4.png",
+        title: "Descuento de pedido",
+        desc: "Promos activas cada semana.",
+      },
     ];
 
     return (<section className="bg-white dark:bg-[#0f0c19] transition-colors">

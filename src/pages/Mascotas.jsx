@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useProducts } from "../hooks/useProducts";
-import ProductCard from "../components/ProductCard";
-import Loader from "../components/Loader";
-import ErrorState from "../components/ErrorState";
 import CategoryCatalog from "../components/CategoryCatalog";
+import ErrorState from "../components/ErrorState";
+import Loader from "../components/Loader";
+import ProductCard from "../components/ProductCard";
 import SubscribeBanner from "../components/SubscribeBanner";
+import { useProducts } from "../hooks/useProducts";
 
 function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
   const calc = () => {
@@ -69,8 +69,9 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
           <button
             key={i}
             onClick={() => setPage(i)}
-            className={`h-2.5 w-2.5 rounded-full border ${i === page ? "bg-gray-900 border-gray-900" : "bg-white"
-              }`}
+            className={`h-2.5 w-2.5 rounded-full border ${
+              i === page ? "bg-gray-900 border-gray-900" : "bg-white"
+            }`}
             aria-label={`Ir a página ${i + 1}`}
           />
         ))}
@@ -86,7 +87,10 @@ export default function Mascotas() {
 
   const scrollTo = (ref) => {
     if (!ref?.current) return;
-    window.scrollTo({ top: Math.max(0, ref.current.offsetTop - 20), behavior: "smooth" });
+    window.scrollTo({
+      top: Math.max(0, ref.current.offsetTop - 20),
+      behavior: "smooth",
+    });
   };
   const scrollToCatalogo = () => {
     const el = document.getElementById(catalogoId);
@@ -151,22 +155,22 @@ export default function Mascotas() {
       <section className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm text-gray-700 dark:text-gray-200">
         {[
           {
-            img: "src/public/assets/icon-img/support-1.png",
+            img: "public/assets/img/icon-img/support-1.png",
             titulo: "Envío gratis",
             desc: "Envío gratuito en todos los pedidos.",
           },
           {
-            img: "src/public/assets/icon-img/support-2.png",
+            img: "public/assets/img/icon-img/support-2.png",
             titulo: "Soporte 24/7",
             desc: "Estamos para ayudarte en lo que necesites.",
           },
           {
-            img: "src/public/assets/icon-img/support-3.png",
+            img: "public/assets/img/icon-img/support-3.png",
             titulo: "Devolución de dinero",
             desc: "Comprá sin preocupaciones.",
           },
           {
-            img: "src/public/assets/icon-img/support-4.png",
+            img: "public/assets/img/icon-img/support-4.png",
             titulo: "Descuento de pedido",
             desc: "Promos activas cada semana.",
           },
@@ -278,56 +282,56 @@ export default function Mascotas() {
               <div className="flex items-center gap-8 lg:gap-12">
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-235.png"
+                    src="public/assets/img/icon-img/logoipsum-235.png"
                     alt="Marca 1"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-332.png"
+                    src="public/assets/img/icon-img/logoipsum-332.png"
                     alt="Marca 2"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-338.png"
+                    src="public/assets/img/icon-img/logoipsum-338.png"
                     alt="Marca 3"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-351.png"
+                    src="public/assets/img/icon-img/logoipsum-351.png"
                     alt="Marca 4"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-243.png"
+                    src="public/assets/img/icon-img/logoipsum-243.png"
                     alt="Marca 5"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-284.png"
+                    src="public/assets/img/icon-img/logoipsum-284.png"
                     alt="Marca 6"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-391.png"
+                    src="public/assets/img/icon-img/logoipsum-391.png"
                     alt="Marca 7"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-370.png"
+                    src="public/assets/img/icon-img/logoipsum-370.png"
                     alt="Marca 8"
                     className="w-16 h-16 object-contain"
                   />
@@ -338,56 +342,56 @@ export default function Mascotas() {
               <div className="flex items-center gap-8 lg:gap-12">
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-235.png"
+                    src="public/assets/img/icon-img/logoipsum-235.png"
                     alt="Marca 1"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-332.png"
+                    src="public/assets/img/icon-img/logoipsum-332.png"
                     alt="Marca 2"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-338.png"
+                    src="public/assets/img/icon-img/logoipsum-338.png"
                     alt="Marca 3"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-351.png"
+                    src="public/assets/img/icon-img/logoipsum-351.png"
                     alt="Marca 4"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-243.png"
+                    src="public/assets/img/icon-img/logoipsum-243.png"
                     alt="Marca 5"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-284.png"
+                    src="public/assets/img/icon-img/logoipsum-284.png"
                     alt="Marca 6"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-391.png"
+                    src="public/assets/img/icon-img/logoipsum-391.png"
                     alt="Marca 7"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-370.png"
+                    src="public/assets/img/icon-img/logoipsum-370.png"
                     alt="Marca 8"
                     className="w-16 h-16 object-contain"
                   />
@@ -398,56 +402,56 @@ export default function Mascotas() {
               <div className="flex items-center gap-8 lg:gap-12">
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-235.png"
+                    src="public/assets/img/icon-img/logoipsum-235.png"
                     alt="Marca 1"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-332.png"
+                    src="public/assets/img/icon-img/logoipsum-332.png"
                     alt="Marca 2"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/"
+                    src="public/assets/img/icon-img/"
                     alt="Marca 3"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-351.png"
+                    src="public/assets/img/icon-img/logoipsum-351.png"
                     alt="Marca 4"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-243.png"
+                    src="public/assets/img/icon-img/logoipsum-243.png"
                     alt="Marca 5"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-284.png"
+                    src="public/assets/img/icon-img/logoipsum-284.png"
                     alt="Marca 6"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-391.png"
+                    src="public/assets/img/icon-img/logoipsum-391.png"
                     alt="Marca 7"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="src/public/assets/icon-img/logoipsum-370.png"
+                    src="public/assets/img/icon-img/logoipsum-370.png"
                     alt="Marca 8"
                     className="w-16 h-16 object-contain"
                   />
