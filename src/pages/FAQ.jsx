@@ -14,7 +14,7 @@ export default function FAQ() {
     },
     {
       q: "¿Necesito una cuenta para comprar?",
-      a: "No, no es necesario crear una cuenta para realizar una compra.",
+      a: "Si, es necesario crear una cuenta para realizar una compra.",
     },
     {
       q: "¿Puedo editar o eliminar productos?",

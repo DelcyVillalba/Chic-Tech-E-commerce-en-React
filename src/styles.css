@@ -1,3 +1,130 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Animación de flotación como globo */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.02);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@layer base {
+    body {
+        background: #ffffff;
+        color: #0f0f14;
+        transition: background 0.4s ease, color 0.3s ease;
+        min-height: 100vh;
+    }
+
+    .dark body {
+        background: radial-gradient(circle at 15% 10%, #1b1731 0, transparent 30%),
+            radial-gradient(circle at 80% 0%, #1a1635 0, transparent 25%),
+            #0b0913;
+        color: #f6f4ff;
+    }
+
+    .surface-card {
+        background: #ffffff;
+        border: 1px solid #e6e1ef;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
+    }
+
+    .dark .surface-card {
+        background: #111023;
+        border-color: #1f1a2e;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    .dark .bg-white {
+        background-color: #111023 !important;
+    }
+
+    .dark .bg-gray-100 {
+        background-color: #151225 !important;
+    }
+
+    .dark .bg-gray-200 {
+        background-color: #1c1828 !important;
+    }
+
+    .dark .text-gray-900,
+    .dark .text-zinc-900 {
+        color: #f6f4ff !important;
+    }
+
+    .dark .text-gray-500 {
+        color: #b3adc7 !important;
+    }
+
+    .dark .border-zinc-200 {
+        border-color: #2a2338 !important;
+    }
+
+    .dark .border-zinc-300 {
+        border-color: #2f2742 !important;
+    }
+
+    :root.theme-transition body,
+    :root.theme-transition body * {
+        transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease !important;
+    }
+}
+
+/* --- EFECTO ZUMBIDO (hover) --- */
+@layer utilities {
+    @keyframes buzz {
+        10% {
+            transform: translateX(-1px) rotate(-1deg);
+        }
+
+        20% {
+            transform: translateX(1px) rotate(1deg);
+        }
+
+        30% {
+            transform: translateX(-1px) rotate(-1deg);
+        }
+
+        40% {
+            transform: translateX(1px) rotate(1deg);
+        }
+
+        50% {
+            transform: translateX(-0.5px) rotate(-0.5deg);
+        }
+
+        60% {
+            transform: translateX(0.5px) rotate(0.5deg);
+        }
+
+        70%,
+        100% {
+            transform: translateX(0) rotate(0);
+        }
+    }
+
+    /* animación pausada por defecto; al hover del contenedor .group se activa */
+    .buzz {
+        animation: buzz .5s linear infinite;
+        animation-play-state: paused;
+    }
+
+    .group:hover .buzz {
+        animation-play-state: running;
+    }
+
+    .group:hover .lift3d {
+        transform: translateZ(56px) scale(1.28) rotateX(6deg);
+    }
+}

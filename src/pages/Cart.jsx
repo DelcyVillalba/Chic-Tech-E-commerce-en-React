@@ -1,12 +1,23 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { formatARS } from "../utils/format";
+import { useAuth } from "../context/AuthContext";
 
 export default function Cart() {
   const { cart, dispatch, totalItems } = useCart();
+  const { user } = useAuth();
+  const nav = useNavigate();
   const [taxEnabled, setTaxEnabled] = useState(false);
+  const [mensaje, setMensaje] = useState("");
   const TAX_RATE = 0.21;
+
+  // Admin no debe ver el carrito
+  useEffect(() => {
+    if (user?.role === "admin") nav("/admin/orders");
+  }, [user, nav]);
+
+  if (user?.role === "admin") return null;
   const totals = useMemo(() => {
     const subtotal = cart.reduce((s, p) => s + p.qty * p.price, 0);
     const tax = taxEnabled ? subtotal * TAX_RATE : 0;
@@ -15,12 +26,14 @@ export default function Cart() {
   }, [cart, taxEnabled]);
   if (cart.length === 0) {
     return (
-      <main className="max-w-4xl mx-auto p-6 text-center">
-        <h1 className="text-2xl font-semibold mb-4">Carrito</h1>
-        <p className="opacity-70 mb-6">Tu carrito está vacío.</p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
+        <h1 className="text-2xl sm:text-3xl font-semibold mb-4">Carrito</h1>
+        <p className="opacity-70 mb-6 text-sm sm:text-base">
+          Tu carrito está vacío.
+        </p>
         <Link
           to="/"
-          className="inline-block bg-black text-white px-4 py-2 rounded-xl"
+          className="inline-block bg-black text-white px-4 py-2 rounded-xl dark:bg-[#c2185b] dark:hover:bg-[#d90f6c] transition-colors"
         >
           Ir a comprar 🛍️
         </Link>
@@ -28,45 +41,65 @@ export default function Cart() {
     );
   }
   return (
-    <main className="max-w-5xl mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-4">Carrito</h1>
-      <div className="grid md:grid-cols-3 gap-6">
-        <section className="md:col-span-2 space-y-3">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <h1 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8">Carrito</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <section className="lg:col-span-2 space-y-3">
           {cart.map((p) => (
             <div
               key={p.id}
-              className="flex items-center gap-4 border rounded-2xl p-3"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 border border-zinc-200 rounded-xl p-4 hover:border-zinc-300 transition-colors"
             >
               <img
                 src={p.image}
                 alt={p.title}
-                className="h-20 w-20 object-contain"
+                className="h-24 w-24 sm:h-20 sm:w-20 object-contain flex-shrink-0"
               />
-              <div className="flex-1">
-                <div className="font-medium line-clamp-1">{p.title}</div>
-                <div className="text-sm opacity-70">
+              <div className="flex-1 min-w-0">
+                <div className="font-medium line-clamp-2 text-sm sm:text-base">{p.title}</div>
+                <div className="text-xs sm:text-sm opacity-70 mt-1">
                   {formatARS.format(p.price)} c/u
                 </div>
-                <div className="text-sm opacity-70">
+                <div className="text-xs sm:text-sm opacity-70">
                   Subtotal: {formatARS.format(p.price * p.qty)}
                 </div>
               </div>
-              <input
-                type="number"
-                min="1"
-                value={p.qty}
-                onChange={(e) =>
-                  dispatch({
-                    type: "SET_QTY",
-                    id: p.id,
-                    qty: Number(e.target.value),
-                  })
-                }
-                className="w-20 border rounded px-2 py-1"
-              />
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <button
+                  onClick={() =>
+                    dispatch({
+                      type: "SET_QTY",
+                      id: p.id,
+                      qty: Math.max(1, p.qty - 1),
+                    })
+                  }
+                  disabled={p.qty <= 1}
+                  className={`h-9 w-9 rounded-full border flex items-center justify-center text-lg font-semibold transition ${p.qty <= 1
+                      ? "border-gray-200 text-gray-300 cursor-not-allowed"
+                      : "border-gray-400 hover:bg-gray-100"
+                    }`}
+                  aria-label="Disminuir cantidad"
+                >
+                  –
+                </button>
+                <span className="w-8 text-center font-semibold text-sm">{p.qty}</span>
+                <button
+                  onClick={() =>
+                    dispatch({
+                      type: "SET_QTY",
+                      id: p.id,
+                      qty: p.qty + 1,
+                    })
+                  }
+                  className="h-9 w-9 rounded-full border border-gray-400 flex items-center justify-center text-lg font-semibold hover:bg-gray-100 transition"
+                  aria-label="Aumentar cantidad"
+                >
+                  +
+                </button>
+              </div>
               <button
                 onClick={() => dispatch({ type: "REMOVE", id: p.id })}
-                className="border rounded px-3 py-2"
+                className="border border-red-300 text-red-600 rounded-lg px-3 py-2 text-sm hover:bg-red-500 hover:text-white transition-colors flex-shrink-0 w-full sm:w-auto text-center"
               >
                 Quitar
               </button>
@@ -74,50 +107,71 @@ export default function Cart() {
           ))}
           <button
             onClick={() => dispatch({ type: "CLEAR" })}
-            className="border rounded px-4 py-2"
+            className="w-full border border-zinc-300 rounded-lg px-4 py-3 text-sm font-medium hover:bg-[#c2185b] hover:text-white transition-colors"
           >
             Vaciar carrito 🛒
           </button>
         </section>
-        <aside className="border rounded-2xl p-4 h-max sticky top-20">
-          <h2 className="text-lg font-semibold mb-3">Resumen</h2>
-          <div className="flex justify-between text-sm mb-1">
-            <span>Items</span>
-            <span>{totalItems}</span>
-          </div>
-          <div className="flex justify-between mb-1">
-            <span>Subtotal</span>
-            <span>{formatARS.format(totals.subtotal)}</span>
-          </div>
-          <label className="flex items-center gap-2 text-sm my-2">
-            <input
-              type="checkbox"
-              checked={taxEnabled}
-              onChange={() => setTaxEnabled((v) => !v)}
-            />{" "}
-            Incluir impuestos (21%)
-          </label>
-          {taxEnabled && (
-            <div className="flex justify-between mb-1">
-              <span>Impuestos</span>
-              <span>{formatARS.format(totals.tax)}</span>
+        <aside className="border border-zinc-200 rounded-xl p-4 sm:p-6 h-max sticky top-24 lg:top-20">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">Resumen</h2>
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between">
+              <span className="opacity-70">Items</span>
+              <span className="font-medium">{totalItems}</span>
             </div>
-          )}
-          <div className="flex justify-between text-lg font-semibold border-t pt-2">
-            <span>Total</span>
-            <span>{formatARS.format(totals.total)}</span>
+            <div className="flex justify-between">
+              <span className="opacity-70">Subtotal</span>
+              <span className="font-medium">{formatARS.format(totals.subtotal)}</span>
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={taxEnabled}
+                onChange={() => setTaxEnabled((v) => !v)}
+                className="rounded"
+              />
+              <span className="opacity-70">Incluir impuestos (21%)</span>
+            </label>
+            {taxEnabled && (
+              <div className="flex justify-between">
+                <span className="opacity-70">Impuestos</span>
+                <span className="font-medium">{formatARS.format(totals.tax)}</span>
+              </div>
+            )}
+            <div className="border-t border-zinc-200 pt-3 flex justify-between text-base sm:text-lg font-semibold">
+              <span>Total</span>
+              <span>{formatARS.format(totals.total)}</span>
+            </div>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            <Link to="/" className="border rounded-xl px-3 py-2 text-center">
+          <div className="mt-6 space-y-2">
+            <Link
+              to="/"
+              className="block border border-zinc-300 rounded-lg px-4 py-3 text-center text-sm font-medium hover:bg-[#c2185b] hover:text-white transition-colors"
+            >
               Seguir comprando 🛍️
             </Link>
             <button
-              className="bg-black text-white rounded-xl px-3 py-2"
-              onClick={() => alert("Checkout simulado ✅")}
+              className={`w-full rounded-lg px-4 py-3 text-sm font-semibold transition-all ${user
+                  ? "bg-black text-white hover:bg-zinc-900 shadow-sm"
+                  : "bg-zinc-100 text-zinc-400 border border-dashed border-zinc-300 cursor-not-allowed"
+                }`}
+              disabled={!user}
+              onClick={async () => {
+                if (!user) {
+                  nav("/login", { state: { from: "/cart" } });
+                  return;
+                }
+                nav("/checkout", { state: { taxEnabled } });
+              }}
             >
-              Ir a pagar 💰
+              {user ? "Ir a pagar 💰" : "Inicia sesión para pagar"}
             </button>
           </div>
+          {!user && (
+            <p className="text-xs text-orange-600 mt-3 text-center">
+              Debes iniciar sesión para completar tu compra.
+            </p>
+          )}
         </aside>
       </div>
     </main>

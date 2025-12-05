@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginApi } from "../api/auth";
+
 const C = createContext(null);
 export const useAuth = () => useContext(C);
 export function AuthProvider({ children }) {
@@ -11,7 +12,12 @@ export function AuthProvider({ children }) {
       ? localStorage.setItem("user", JSON.stringify(user))
       : localStorage.removeItem("user");
   }, [user]);
-  const login = async (cred) => setUser(await loginApi(cred));
+  
+  const login = async (cred) => {
+    const logged = await loginApi(cred);
+    setUser(logged);
+    return logged;
+  };
   const logout = () => setUser(null);
   return <C.Provider value={{ user, login, logout }}>{children}</C.Provider>;
 }
