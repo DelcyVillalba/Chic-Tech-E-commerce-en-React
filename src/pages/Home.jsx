@@ -89,56 +89,56 @@ export default function Home() {
               <div className="flex items-center gap-8 lg:gap-12">
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-235.png"
+                    src="/assets/icon-img/logoipsum-235.png"
                     alt="Marca 1"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-332.png"
+                    src="/assets/icon-img/logoipsum-332.png"
                     alt="Marca 2"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-338.png"
+                    src="/assets/icon-img/logoipsum-338.png"
                     alt="Marca 3"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-351.png"
+                    src="/assets/icon-img/logoipsum-351.png"
                     alt="Marca 4"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-243.png"
+                    src="/assets/icon-img/logoipsum-243.png"
                     alt="Marca 5"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-284.png"
+                    src="/assets/icon-img/logoipsum-284.png"
                     alt="Marca 6"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-391.png"
+                    src="/assets/icon-img/logoipsum-391.png"
                     alt="Marca 7"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-370.png"
+                    src="/assets/icon-img/logoipsum-370.png"
                     alt="Marca 8"
                     className="w-16 h-16 object-contain"
                   />
@@ -149,56 +149,56 @@ export default function Home() {
               <div className="flex items-center gap-8 lg:gap-12">
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-235.png"
+                    src="/assets/icon-img/logoipsum-235.png"
                     alt="Marca 1"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-332.png"
+                    src="/assets/icon-img/logoipsum-332.png"
                     alt="Marca 2"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-338.png"
+                    src="/assets/icon-img/logoipsum-338.png"
                     alt="Marca 3"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-351.png"
+                    src="/assets/icon-img/logoipsum-351.png"
                     alt="Marca 4"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-243.png"
+                    src="/assets/icon-img/logoipsum-243.png"
                     alt="Marca 5"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-284.png"
+                    src="/assets/icon-img/logoipsum-284.png"
                     alt="Marca 6"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-391.png"
+                    src="/assets/icon-img/logoipsum-391.png"
                     alt="Marca 7"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-370.png"
+                    src="/assets/icon-img/logoipsum-370.png"
                     alt="Marca 8"
                     className="w-16 h-16 object-contain"
                   />
@@ -209,56 +209,56 @@ export default function Home() {
               <div className="flex items-center gap-8 lg:gap-12">
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-235.png"
+                    src="/assets/icon-img/logoipsum-235.png"
                     alt="Marca 1"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-332.png"
+                    src="/assets/icon-img/logoipsum-332.png"
                     alt="Marca 2"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-338.png"
+                    src="/assets/icon-img/logoipsum-338.png"
                     alt="Marca 3"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-351.png"
+                    src="/assets/icon-img/logoipsum-351.png"
                     alt="Marca 4"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-243.png"
+                    src="/assets/icon-img/logoipsum-243.png"
                     alt="Marca 5"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-284.png"
+                    src="/assets/icon-img/logoipsum-284.png"
                     alt="Marca 6"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-391.png"
+                    src="/assets/icon-img/logoipsum-391.png"
                     alt="Marca 7"
                     className="w-16 h-16 object-contain"
                   />
                 </div>
                 <div className="flex items-center justify-center w-24 h-24 opacity-90 hover:opacity-100 transition-all duration-300 hover:scale-110">
                   <img
-                    src="public/assets/logoipsum-370.png"
+                    src="/assets/icon-img/logoipsum-370.png"
                     alt="Marca 8"
                     className="w-16 h-16 object-contain"
                   />

@@ -1,12 +1,12 @@
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
-import { useWishlist } from "../context/WishlistContext";
 import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { listOrders } from "../api/orders";
+import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 import AdminLoginModal from "./AdminLoginModal";
 import ThemeToggle from "./ThemeToggle";
-const adminIcon = "public/assets/img/icon-img/Admin.png";
-import { listOrders } from "../api/orders";
+const adminIcon = "/assets/icon-img/Admin.png";
 
 const base = "px-2 py-1";
 const lineBase =
