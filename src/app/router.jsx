@@ -28,6 +28,9 @@ import Checkout from "../pages/Checkout";
 import AdminUsers from "../pages/AdminUsers";
 import AdminReports from "../pages/AdminReports";
 import AdminSettings from "../pages/AdminSettings";
+
+console.log("🔧 VITE_API_URL:", import.meta.env.VITE_API_URL);
+
 export const router = createBrowserRouter([
   {
     element: <Layout />,
