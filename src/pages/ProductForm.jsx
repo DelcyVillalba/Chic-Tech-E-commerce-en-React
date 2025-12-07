@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { createProduct, getProduct, updateProduct } from "../api/products";
 import AdminShell from "../components/AdminShell";
 
@@ -37,8 +42,7 @@ const parsePriceInputValue = (value) => {
     const last = segments.pop() || "";
     const intPart = segments.join("") || "0";
     const intValue = Number(intPart);
-    const treatAsThousands =
-      last.length === 3 && intValue > 0;
+    const treatAsThousands = last.length === 3 && intValue > 0;
 
     if (treatAsThousands) {
       return Number(`${intPart}${last}`);
@@ -67,8 +71,7 @@ export default function ProductForm() {
             d.discount === null || d.discount === undefined
               ? ""
               : `${d.discount}`,
-          stock:
-            d.stock === null || d.stock === undefined ? "" : `${d.stock}`,
+          stock: d.stock === null || d.stock === undefined ? "" : `${d.stock}`,
         })
       )
       .catch((e) => setErr(e.message))
@@ -83,7 +86,9 @@ export default function ProductForm() {
 
   const previewPriceNumber = parsePriceInputValue(form.price);
   const previewDiscountNumber =
-    form.discount === "" || form.discount === null || form.discount === undefined
+    form.discount === "" ||
+    form.discount === null ||
+    form.discount === undefined
       ? 0
       : Number(form.discount);
   const hasValidPreviewPrice = !Number.isNaN(previewPriceNumber);
@@ -103,8 +108,7 @@ export default function ProductForm() {
         setErr("Precio inválido");
         return;
       }
-      const discountNumber =
-        form.discount === "" ? 0 : Number(form.discount);
+      const discountNumber = form.discount === "" ? 0 : Number(form.discount);
       if (
         Number.isNaN(discountNumber) ||
         discountNumber < 0 ||
@@ -113,8 +117,7 @@ export default function ProductForm() {
         setErr("Descuento inválido (0 a 100)");
         return;
       }
-      const stockNumber =
-        form.stock === "" ? 0 : Number(form.stock);
+      const stockNumber = form.stock === "" ? 0 : Number(form.stock);
       if (Number.isNaN(stockNumber)) {
         setErr("Stock inválido");
         return;
@@ -163,16 +166,40 @@ export default function ProductForm() {
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
+          <select
+            className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+            value={form.category}
+            onChange={(e) => {
+              const categoria = e.target.value;
+              setForm((prev) => ({
+                ...prev,
+                category: categoria,
+                image:
+                  prev.image?.startsWith("/") &&
+                  prev.image.split("/").length <= 3
+                    ? `/${categoria}/`
+                    : prev.image,
+              }));
+            }}
+          >
+            <option value="mujer">Moda mujer</option>
+            <option value="hombre">Moda hombre</option>
+            <option value="ninos">Moda niños</option>
+            <option value="accesorios">Accesorios</option>
+            <option value="cosmeticos">Cosméticos</option>
+            <option value="hogar">Hogar</option>
+            <option value="jardin">Jardín</option>
+            <option value="mascotas">Mascotas</option>
+            <option value="tecnologia">Tecnología</option>
+            <option value="libros">Libros</option>
+          </select>
           <input
             className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-            placeholder="Imagen (ruta o URL, ej: /tecnologia/1 (1).png)"
+            placeholder={`Ruta de imagen (ej: /${form.category}/archivo.png)`}
             value={form.image}
             onChange={(e) => setForm({ ...form, image: e.target.value })}
             list="img-options"
           />
-          <p className="text-xs text-gray-500">
-            Tip: escribe /{form.category}/ y el nombre del archivo que está en esa carpeta pública.
-          </p>
           <datalist id="img-options">
             <option value="/tecnologia/1 (1).png" />
             <option value="/mujer/1.png" />
@@ -188,7 +215,7 @@ export default function ProductForm() {
           {form.image && (
             <img src={form.image} alt="" className="h-32 object-contain" />
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
             <input
               className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               type="text"
@@ -204,11 +231,9 @@ export default function ProductForm() {
               max="100"
               placeholder="Descuento (%)"
               value={form.discount}
-              onChange={(e) =>
-                setForm({ ...form, discount: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, discount: e.target.value })}
             />
-            <div className="w-full border border-zinc-200 dark:border-[#2a2338]  rounded px-3 py-2 text-xs sm:text-sm bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100 flex items-center">
+            <div className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400">
               {finalPreview !== null ? (
                 <span>
                   Precio con descuento:{" "}
@@ -239,32 +264,6 @@ export default function ProductForm() {
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
-          <select
-            className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100"
-            value={form.category}
-            onChange={(e) => {
-              const categoria = e.target.value;
-              setForm((prev) => ({
-                ...prev,
-                category: categoria,
-                image:
-                  prev.image?.startsWith("/") && prev.image.split("/").length <= 3
-                    ? `/${categoria}/`
-                    : prev.image,
-              }));
-            }}
-          >
-            <option value="tecnologia">Tecnología</option>
-            <option value="mujer">Moda mujer</option>
-            <option value="hombre">Moda hombre</option>
-          <option value="ninos">Moda niños</option>
-            <option value="accesorios">Accesorios</option>
-            <option value="cosmeticos">Cosméticos</option>
-            <option value="hogar">Hogar</option>
-            <option value="jardin">Jardín</option>
-            <option value="libros">Libros</option>
-            <option value="mascotas">Mascotas</option>
-          </select>
           <button className="bg-black text-white rounded-xl px-3 py-2 text-sm font-semibold w-fit dark:bg-[#c2185b] dark:hover:bg-[#d90f6c] transition-colors">
             {id ? "Guardar cambios" : "Crear"}
           </button>
