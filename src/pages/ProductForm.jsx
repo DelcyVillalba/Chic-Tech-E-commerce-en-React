@@ -264,7 +264,7 @@ export default function ProductForm() {
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
-          <button className="bg-black text-white rounded-xl px-3 py-2 text-sm font-semibold w-fit dark:bg-[#c2185b] dark:hover:bg-[#d90f6c] transition-colors">
+          <button className="bg-black text-white rounded-md px-3 py-2 text-sm font-semibold w-fit dark:bg-[#c2185b] dark:hover:bg-[#d90f6c] transition-colors">
             {id ? "Guardar cambios" : "Crear"}
           </button>
         </form>

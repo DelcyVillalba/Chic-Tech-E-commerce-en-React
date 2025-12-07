@@ -13,15 +13,31 @@ export function CartProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+
+  const normalizeItem = (item) => {
+    const rawPrice = Number(item.price) || 0;
+    const discount = Number(item.discount) || 0;
+    const finalPrice =
+      discount > 0 ? rawPrice * (1 - discount / 100) : rawPrice;
+
+    return {
+      ...item,
+      originalPrice: rawPrice,
+      price: finalPrice,
+      discount,
+    };
+  };
+
   const add = (item, qty = 1) =>
     setCart((prev) => {
-      const i = prev.findIndex((p) => p.id === item.id);
+      const normalized = normalizeItem(item);
+      const i = prev.findIndex((p) => p.id === normalized.id);
       if (i >= 0) {
         const copy = [...prev];
         copy[i] = { ...copy[i], qty: copy[i].qty + qty };
         return copy;
       }
-      return [...prev, { ...item, qty }];
+      return [...prev, { ...normalized, qty }];
     });
   const setQty = (id, qty) =>
     setCart((prev) => prev.map((p) => (p.id === id ? { ...p, qty } : p)));

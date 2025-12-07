@@ -21,6 +21,10 @@ export default function ProductDetail() {
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;
 
+  const discount = Number(p.discount) || 0;
+  const hasDiscount = discount > 0;
+  const finalPrice = hasDiscount ? p.price * (1 - discount / 100) : p.price;
+
   const addToCart = () => {
     dispatch({ type: "ADD", item: p });
     setAdded(true);
@@ -39,7 +43,12 @@ export default function ProductDetail() {
 
         <div className="flex items-center justify-between gap-3">
           <span className="text-2xl font-bold">
-            {formatARS.format(p.price)}
+            {formatARS.format(finalPrice)}
+            {hasDiscount && (
+              <span className="ml-3 text-base font-normal opacity-60 line-through">
+                {formatARS.format(p.price)}
+              </span>
+            )}
           </span>
           <div className="flex items-center gap-2">
             <button

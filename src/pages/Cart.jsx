@@ -14,7 +14,7 @@ export default function Cart() {
 
   // Admin no debe ver el carrito
   useEffect(() => {
-    if (user?.role === "admin") nav("/admin/orders");
+  if (user?.role === "admin") nav("/admin/orders");
   }, [user, nav]);
 
   if (user?.role === "admin") return null;
@@ -58,7 +58,16 @@ export default function Cart() {
               <div className="flex-1 min-w-0">
                 <div className="font-medium line-clamp-2 text-sm sm:text-base">{p.title}</div>
                 <div className="text-xs sm:text-sm opacity-70 mt-1">
-                  {formatARS.format(p.price)} c/u
+                  {p.discount > 0 && p.originalPrice ? (
+                    <>
+                      <span className="line-through mr-1">
+                        {formatARS.format(p.originalPrice)}
+                      </span>
+                      <span>{formatARS.format(p.price)} c/u</span>
+                    </>
+                  ) : (
+                    <span>{formatARS.format(p.price)} c/u</span>
+                  )}
                 </div>
                 <div className="text-xs sm:text-sm opacity-70">
                   Subtotal: {formatARS.format(p.price * p.qty)}

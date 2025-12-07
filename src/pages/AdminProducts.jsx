@@ -27,10 +27,14 @@ export default function AdminProducts() {
     <AdminShell title="Productos" onRefresh={load}>
       <div className="w-full space-y-3 text-zinc-900 dark:text-zinc-100 transition-colors mt-3 sm:mt-4">
         <div className="flex items-center justify-between gap-2">
-          <h1 className="text-lg sm:text-xl font-semibold">Administrador de productos</h1>
+          <h1 className="text-lg sm:text-xl font-semibold">
+            Administrador de productos
+          </h1>
           <Link
-            to={`/admin/products/new${filtroCat ? `?category=${filtroCat}` : ""}`}
-            className="bg-black text-white px-3 py-1 rounded-xl dark:bg-[#c2185b] dark:hover:bg-[#d90f6c] transition-colors"
+            to={`/admin/products/new${
+              filtroCat ? `?category=${filtroCat}` : ""
+            }`}
+            className="bg-black text-white px-3 py-1 rounded-md dark:bg-[#c2185b] dark:hover:bg-[#d90f6c] transition-colors"
           >
             Nuevo
           </Link>
@@ -83,7 +87,10 @@ export default function AdminProducts() {
                 .filter((r) => (filtroCat ? r.category === filtroCat : true))
                 .slice((page - 1) * perPage, page * perPage)
                 .map((r) => (
-                  <tr key={r.id} className="border-t border-zinc-200 dark:border-[#2a2338]">
+                  <tr
+                    key={r.id}
+                    className="border-t border-zinc-200 dark:border-[#2a2338]"
+                  >
                     <td className="p-2">{r.id}</td>
                     <td className="p-2">
                       <img
