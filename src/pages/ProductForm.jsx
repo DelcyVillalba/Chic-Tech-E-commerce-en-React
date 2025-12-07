@@ -6,6 +6,7 @@ import AdminShell from "../components/AdminShell";
 const empty = {
   title: "",
   price: "",
+  discount: "",
   description: "",
   image: "",
   category: "tecnologia",
@@ -62,6 +63,10 @@ export default function ProductForm() {
           ...empty,
           ...d,
           price: formatPriceInputValue(d.price),
+          discount:
+            d.discount === null || d.discount === undefined
+              ? ""
+              : `${d.discount}`,
           stock:
             d.stock === null || d.stock === undefined ? "" : `${d.stock}`,
         })
@@ -75,6 +80,20 @@ export default function ProductForm() {
       if (cat) setForm((f) => ({ ...f, category: cat }));
     }
   }, [id, search]);
+
+  const previewPriceNumber = parsePriceInputValue(form.price);
+  const previewDiscountNumber =
+    form.discount === "" || form.discount === null || form.discount === undefined
+      ? 0
+      : Number(form.discount);
+  const hasValidPreviewPrice = !Number.isNaN(previewPriceNumber);
+  const hasValidPreviewDiscount =
+    !Number.isNaN(previewDiscountNumber) && previewDiscountNumber >= 0;
+  const finalPreview =
+    hasValidPreviewPrice && hasValidPreviewDiscount
+      ? previewPriceNumber * (1 - previewDiscountNumber / 100)
+      : null;
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setErr("");
@@ -82,6 +101,16 @@ export default function ProductForm() {
       const priceNumber = parsePriceInputValue(form.price);
       if (Number.isNaN(priceNumber)) {
         setErr("Precio inválido");
+        return;
+      }
+      const discountNumber =
+        form.discount === "" ? 0 : Number(form.discount);
+      if (
+        Number.isNaN(discountNumber) ||
+        discountNumber < 0 ||
+        discountNumber > 100
+      ) {
+        setErr("Descuento inválido (0 a 100)");
         return;
       }
       const stockNumber =
@@ -93,6 +122,7 @@ export default function ProductForm() {
       const payload = {
         ...form,
         price: priceNumber,
+        discount: discountNumber,
         stock: stockNumber,
       };
       if (id) await updateProduct(id, payload);
@@ -123,15 +153,18 @@ export default function ProductForm() {
           </Link>
         </div>
         {err && <div className="text-red-600 mb-2">Error: {err}</div>}
-        <form onSubmit={onSubmit} className="space-y-3">
+        <form
+          onSubmit={onSubmit}
+          className="space-y-3 border border-zinc-200 dark:border-[#2a2338] rounded-2xl p-4 bg-gray-50 dark:bg-[#2a2338]"
+        >
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             placeholder="Título"
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             placeholder="Imagen (ruta o URL, ej: /tecnologia/1 (1).png)"
             value={form.image}
             onChange={(e) => setForm({ ...form, image: e.target.value })}
@@ -155,16 +188,45 @@ export default function ProductForm() {
           {form.image && (
             <img src={form.image} alt="" className="h-32 object-contain" />
           )}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <input
+              className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              type="text"
+              inputMode="decimal"
+              placeholder="Precio original"
+              value={form.price}
+              onChange={(e) => setForm({ ...form, price: e.target.value })}
+            />
+            <input
+              className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              type="number"
+              min="0"
+              max="100"
+              placeholder="Descuento (%)"
+              value={form.discount}
+              onChange={(e) =>
+                setForm({ ...form, discount: e.target.value })
+              }
+            />
+            <div className="w-full border border-zinc-200 dark:border-[#2a2338]  rounded px-3 py-2 text-xs sm:text-sm bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100 flex items-center">
+              {finalPreview !== null ? (
+                <span>
+                  Precio con descuento:{" "}
+                  <span className="font-semibold">
+                    $
+                    {finalPreview.toLocaleString("es-AR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                </span>
+              ) : (
+                <span className="text-gray-400">Precio con descuento</span>
+              )}
+            </div>
+          </div>
           <input
-            className="w-full border rounded px-3 py-2"
-            type="text"
-            inputMode="decimal"
-            placeholder="Precio"
-            value={form.price}
-            onChange={(e) => setForm({ ...form, price: e.target.value })}
-          />
-          <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             type="number"
             min="0"
             placeholder="Stock (unidades)"
@@ -172,13 +234,13 @@ export default function ProductForm() {
             onChange={(e) => setForm({ ...form, stock: e.target.value })}
           />
           <textarea
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             placeholder="Descripción"
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
           <select
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100"
             value={form.category}
             onChange={(e) => {
               const categoria = e.target.value;
@@ -203,7 +265,7 @@ export default function ProductForm() {
             <option value="libros">Libros</option>
             <option value="mascotas">Mascotas</option>
           </select>
-          <button className="bg-black text-white px-4 py-2 rounded-xl">
+          <button className="bg-black text-white rounded-xl px-3 py-2 text-sm font-semibold w-fit dark:bg-[#c2185b] dark:hover:bg-[#d90f6c] transition-colors">
             {id ? "Guardar cambios" : "Crear"}
           </button>
         </form>
