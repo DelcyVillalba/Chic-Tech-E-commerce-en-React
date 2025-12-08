@@ -159,7 +159,7 @@ export default function Hombre() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-16 md:py-40 text-center text-white space-y-5">
+        <div className="relative max-w-6xl mx-auto px-6 py-16 md:py-60 text-center text-white space-y-5">
           <h1 className="text-4xl md:text-5xl font-bold text-white dark:text-[#fbe8ef]">
             Hombre
           </h1>

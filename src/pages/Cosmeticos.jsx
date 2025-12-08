@@ -166,7 +166,7 @@ export default function Cosmeticos() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-40 text-center space-y-5">
+        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-60 text-center space-y-5">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-gray-100">
             Cosmética de moda
           </h1>

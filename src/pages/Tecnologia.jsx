@@ -457,7 +457,7 @@ export default function Tecnologia() {
           playsInline
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/45 to-black/20" />
-        <div className="relative max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-8 items-center text-white">
+        <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-48 grid md:grid-cols-2 gap-8 items-center text-white">
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.2em] text-white/70">
               Innovación en cada detalle

@@ -67,7 +67,7 @@ export default function Libros() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 items-center gap-8 text-white">
+        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-48 grid md:grid-cols-2 items-center gap-8 text-white">
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.25em] text-white/75">
               Lecturas destacadas

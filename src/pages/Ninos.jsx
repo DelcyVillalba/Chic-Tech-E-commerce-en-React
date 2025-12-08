@@ -91,8 +91,9 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
           <button
             key={i}
             onClick={() => setPage(i)}
-            className={`h-2.5 w-2.5 rounded-full border ${i === page ? "bg-[#c2185b] border-[#c2185b]" : "bg-white"
-              }`}
+            className={`h-2.5 w-2.5 rounded-full border ${
+              i === page ? "bg-[#c2185b] border-[#c2185b]" : "bg-white"
+            }`}
             aria-label={`Ir a página ${i + 1}`}
           />
         ))}
@@ -136,9 +137,9 @@ export default function Ninos() {
               backgroundPosition: "28% center",
             }}
           />
-          <div className="hidden dark:block absolute bottom-0 left-0 right-0 h-5 bg-[#0b0913]"></div>
+          <div className="hidden dark:block absolute bottom-0 left-0 right-0 h-6 bg-[#0b0913]"></div>
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-40 grid md:grid-cols-2 items-center gap-10">
+        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-60 grid md:grid-cols-2 items-center gap-10">
           <div />
           <div className="space-y-4 text-center md:text-right md:justify-self-start md:max-w-md w-full md:pr-10">
             <p className="text-sm font-semibold text-gray-50 dark:text-gray-50">

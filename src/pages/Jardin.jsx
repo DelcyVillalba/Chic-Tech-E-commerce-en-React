@@ -156,7 +156,7 @@ export default function Jardin() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32 grid md:grid-cols-2 items-center gap-8">
+        <div className="relative max-w-6xl mx-auto px-6 py-9 md:py-52 grid md:grid-cols-2 items-center gap-8">
           <div className="space-y-4">
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
               -20% de descuento en todos los artículos

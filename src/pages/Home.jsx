@@ -47,7 +47,23 @@ export default function Home() {
   }, [location.state, navigate]);
 
   const { data, loading, error, totalPages } = useProducts(filters);
-  const setPage = (p) => setFilters((f) => ({ ...f, page: p }));
+  const handlePageChange = (p) => {
+    setFilters((f) => ({ ...f, page: p }));
+
+    if (typeof window !== "undefined") {
+      const el =
+        document.getElementById("catalogo-anchor") ||
+        document.getElementById("catalogo");
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const offset = 80;
+        window.scrollTo({
+          top: rect.top + window.scrollY - offset,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
   const onChange = (f) => setFilters((prev) => ({ ...prev, ...f, page: 1 }));
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;
@@ -311,7 +327,7 @@ export default function Home() {
           <Pagination
             page={filters.page}
             totalPages={totalPages}
-            onPage={setPage}
+            onPage={handlePageChange}
             minButtons={3}
           />
         )}

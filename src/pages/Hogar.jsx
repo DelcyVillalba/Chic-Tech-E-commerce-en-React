@@ -37,7 +37,7 @@ export default function Hogar() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-2 items-center gap-8 text-white">
+        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-60 text-center text-white space-y-5">
           <div className="space-y-5">
             <p className="text-sm uppercase tracking-[0.25em] text-white/75">
               Nuevos esenciales para el hogar

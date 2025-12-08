@@ -153,7 +153,7 @@ export default function Mujer() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-40 text-center text-white space-y-5">
+        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-60 text-center text-white space-y-5">
           <h1 className="text-4xl md:text-6xl font-bold">
             Productos inteligentes
           </h1>

@@ -19,6 +19,21 @@ export default function CategoryCatalog({
     perPage,
   });
 
+  const handlePageChange = (nextPage) => {
+    setPage(nextPage);
+    if (typeof window !== "undefined") {
+      const el = document.getElementById(anchorId);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const offset = 80;
+        window.scrollTo({
+          top: rect.top + window.scrollY - offset,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   useEffect(() => {
     setPage((prev) => Math.min(prev, totalPages || 1));
   }, [totalPages]);
@@ -26,14 +41,14 @@ export default function CategoryCatalog({
   const hasProducts = useMemo(() => data && data.length > 0, [data]);
 
   return (
-    <section className="mt-10 sm:mt-12">
+    <section id={anchorId} className="mt-10 sm:mt-12">
       {showHeader && (
         <div className="flex items-center justify-between gap-3 mb-4">
           <h2 className="text-xl sm:text-2xl font-semibold">{title}</h2>
         </div>
       )}
 
-      <div id={anchorId} className="min-h-24">
+      <div className="min-h-24">
         {loading && <Loader />}
         {error && <ErrorState message={error} />}
         {!loading && !error && (
@@ -58,7 +73,7 @@ export default function CategoryCatalog({
           <Pagination
             page={page}
             totalPages={totalPages}
-            onPage={setPage}
+            onPage={handlePageChange}
             minButtons={3}
           />
         </div>

@@ -123,7 +123,7 @@ export default function Accesorios() {
 
   return (
     <div className="bg-white">
-      {/* Hero tipo editorial */}
+      {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <div

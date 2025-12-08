@@ -21,26 +21,43 @@ export default function DailyDeals() {
       return { newest: [], best: [], onSale: [] };
     }
 
-    const shuffled = [...items].sort(() => Math.random() - 0.5);
+    const used = new Set();
+    const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
-    const byNewest = [...items].sort((a, b) => b.id - a.id);
-    const newest = byNewest.slice(0, MAX_ITEMS);
+    // Recién llegados: priorizar los más nuevos (ids altas) pero mezclados
+    const newestPool = [...items]
+      .sort((a, b) => b.id - a.id)
+      .slice(0, MAX_ITEMS * 2);
+    const newest = [];
+    for (const p of shuffle(newestPool)) {
+      if (newest.length >= MAX_ITEMS) break;
+      if (used.has(p.id)) continue;
+      newest.push(p);
+      used.add(p.id);
+    }
 
-    let bestSource = [...items]
+    // Los más vendidos: simulamos con precios más altos, sin repetir los nuevos
+    const bestPool = [...items]
       .sort((a, b) => Number(b.price) - Number(a.price))
-      .filter((p) => !newest.some((n) => n.id === p.id));
-    if (bestSource.length === 0) bestSource = shuffled;
-    const best = bestSource.slice(0, MAX_ITEMS);
+      .slice(0, MAX_ITEMS * 2);
+    const best = [];
+    for (const p of shuffle(bestPool)) {
+      if (best.length >= MAX_ITEMS) break;
+      if (used.has(p.id)) continue;
+      best.push(p);
+      used.add(p.id);
+    }
 
-    let ofertaBase = items.filter((p) => Number(p.discount) > 0);
-    if (ofertaBase.length === 0) ofertaBase = shuffled;
-    let onSaleSource = ofertaBase.filter(
-      (p) =>
-        !newest.some((n) => n.id === p.id) &&
-        !best.some((b) => b.id === p.id)
-    );
-    if (onSaleSource.length === 0) onSaleSource = shuffled;
-    const onSale = onSaleSource.slice(0, MAX_ITEMS);
+    // Artículos en oferta: con descuento; si no hay, usar cualquier producto restante
+    const saleCandidates = items.filter((p) => Number(p.discount) > 0);
+    const salePool = saleCandidates.length ? saleCandidates : items;
+    const onSale = [];
+    for (const p of shuffle(salePool)) {
+      if (onSale.length >= MAX_ITEMS) break;
+      if (used.has(p.id)) continue;
+      onSale.push(p);
+      used.add(p.id);
+    }
 
     return { newest, best, onSale };
   })();
