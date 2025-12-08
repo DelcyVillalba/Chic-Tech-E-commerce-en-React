@@ -103,7 +103,10 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 }
 
 export default function Ninos() {
-  const { data, loading, error } = useProducts({ category: "ninos" });
+  const { data, loading, error } = useProducts({
+    category: "ninos",
+    perPage: 999,
+  });
   const destacadosRef = useRef(null);
   const ultimosRef = useRef(null);
   const catalogoId = "catalogo-ninos";
@@ -117,8 +120,14 @@ export default function Ninos() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const destacados = useMemo(() => data.slice(0, 4), [data]);
-  const ultimos = useMemo(() => data.slice(0, 6), [data]);
+  const destacados = useMemo(() => {
+    if (!data || data.length === 0) return [];
+    return [...data].sort(() => Math.random() - 0.5);
+  }, [data]);
+  const ultimos = useMemo(() => {
+    if (!data || data.length === 0) return [];
+    return [...data].sort(() => Math.random() - 0.5);
+  }, [data]);
 
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;

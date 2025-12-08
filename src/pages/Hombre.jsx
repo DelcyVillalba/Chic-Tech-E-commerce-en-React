@@ -85,7 +85,10 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 }
 
 export default function Hombre() {
-  const { data, loading, error } = useProducts({ category: "hombre" });
+  const { data, loading, error } = useProducts({
+    category: "hombre",
+    perPage: 999,
+  });
   const recienRef = useRef(null);
   const [tab, setTab] = useState("recien");
   const catalogoId = "catalogo-hombre";
@@ -99,14 +102,14 @@ export default function Hombre() {
 
     // Recién llegados: priorizar los más nuevos, pero mezclados
     const byNewest = [...data].sort((a, b) => b.id - a.id);
-    const recien = byNewest.slice(0, 8);
+    const recien = byNewest;
 
     // Más vendidos (simulado): precios más altos, evitando repetir todos los de recién
     let masVendidosSource = [...data]
       .sort((a, b) => Number(b.price) - Number(a.price))
       .filter((p) => !recien.some((r) => r.id === p.id));
     if (masVendidosSource.length === 0) masVendidosSource = shuffled;
-    const masVendidos = masVendidosSource.slice(0, 8);
+    const masVendidos = masVendidosSource;
 
     // En oferta: productos con descuento; si no hay, usar mezcla general
     let ofertaBase = data.filter((p) => Number(p.discount) > 0);
@@ -117,7 +120,7 @@ export default function Hombre() {
         !masVendidos.some((m) => m.id === p.id)
     );
     if (enOfertaSource.length === 0) enOfertaSource = shuffled;
-    const enOferta = enOfertaSource.slice(0, 8);
+    const enOferta = enOfertaSource;
 
     return { recienLlegados: recien, masVendidos, enOferta };
   }, [data]);
@@ -239,6 +242,7 @@ export default function Hombre() {
           </p>
         ) : (
           <Carousel
+            key={activeTab.id}
             items={activeTab.items}
             perPageConfig={{ mobile: 1, tablet: 2, desktop: 4 }}
             dotsId={`hombre-${activeTab.id}`}

@@ -81,7 +81,10 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 }
 
 export default function Accesorios() {
-  const { data, loading, error } = useProducts({ category: "accesorios" });
+  const { data, loading, error } = useProducts({
+    category: "accesorios",
+    perPage: 999,
+  });
   const collageRef = useRef(null);
   const novedadesRef = useRef(null);
   const catalogoId = "catalogo-accesorios";
@@ -96,8 +99,14 @@ export default function Accesorios() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const novedades = useMemo(() => data.slice().reverse().slice(0, 8), [data]);
-  const favoritos = useMemo(() => data.slice(0, 8), [data]);
+  const novedades = useMemo(() => {
+    if (!data || data.length === 0) return [];
+    return [...data].sort(() => Math.random() - 0.5);
+  }, [data]);
+  const favoritos = useMemo(() => {
+    if (!data || data.length === 0) return [];
+    return [...data].sort(() => Math.random() - 0.5);
+  }, [data]);
   const collageItems = [
     { image: "/accesorios/accesorio.webp", title: "Look 1", category: "Collares y Anillos" },
     {

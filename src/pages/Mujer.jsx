@@ -86,7 +86,10 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 }
 
 export default function Mujer() {
-  const { data, loading, error } = useProducts({ category: "mujer" });
+  const { data, loading, error } = useProducts({
+    category: "mujer",
+    perPage: 999,
+  });
   const destacadosRef = useRef(null);
   const catalogoId = "catalogo-mujer";
 
@@ -103,13 +106,13 @@ export default function Mujer() {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
 
     const byNewest = [...data].sort((a, b) => b.id - a.id);
-    const recien = byNewest.slice(0, 8);
+    const recien = byNewest;
 
     let masVendidosSource = [...data]
       .sort((a, b) => Number(b.price) - Number(a.price))
       .filter((p) => !recien.some((r) => r.id === p.id));
     if (masVendidosSource.length === 0) masVendidosSource = shuffled;
-    const masVendidos = masVendidosSource.slice(0, 8);
+    const masVendidos = masVendidosSource;
 
     let ofertaBase = data.filter((p) => Number(p.discount) > 0);
     if (ofertaBase.length === 0) ofertaBase = shuffled;
@@ -119,7 +122,7 @@ export default function Mujer() {
         !masVendidos.some((m) => m.id === p.id)
     );
     if (enOfertaSource.length === 0) enOfertaSource = shuffled;
-    const enOferta = enOfertaSource.slice(0, 8);
+    const enOferta = enOfertaSource;
 
     return { recienLlegados: recien, masVendidos, enOferta };
   }, [data]);
@@ -227,6 +230,7 @@ export default function Mujer() {
           <p className="text-gray-600">No hay productos en esta categoría.</p>
         ) : (
           <Carousel
+            key={activeTab.id}
             items={activeTab.items}
             perPageConfig={{ mobile: 1, tablet: 2, desktop: 4 }}
             dotsId={`mujer-${activeTab.id}`}

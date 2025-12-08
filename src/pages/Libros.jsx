@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useProducts } from "../hooks/useProducts";
 import ProductCard from "../components/ProductCard";
 import Loader from "../components/Loader";
@@ -8,8 +8,92 @@ import QuickViewModal from "../components/QuickViewModal";
 import CategoryCatalog from "../components/CategoryCatalog";
 import SubscribeBanner from "../components/SubscribeBanner";
 
+// Carrusel reutilizable (similar al de Mujer/Hombre)
+function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
+  const calc = () => {
+    if (typeof window === "undefined") return config.desktop;
+    const w = window.innerWidth;
+    if (w < 640) return config.mobile;
+    if (w < 1024) return config.tablet;
+    return config.desktop;
+  };
+  const [perPage, setPerPage] = useState(calc);
+
+  useEffect(() => {
+    const onResize = () => setPerPage(calc());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  return perPage;
+}
+
+function Carousel({ items, renderItem, perPageConfig, dotsId }) {
+  const perPage = usePerPage(perPageConfig);
+  const [page, setPage] = useState(0);
+
+  const totalPages = Math.max(1, Math.ceil(items.length / perPage));
+  useEffect(() => {
+    setPage(0);
+  }, [perPage, items.length]);
+
+  const start = page * perPage;
+  const visible = items.slice(start, start + perPage);
+
+  return (
+    <div className="relative">
+      <div className="flex items-center gap-3">
+        <button
+          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
+          onClick={() => setPage((p) => Math.max(0, p - 1))}
+          disabled={page <= 0}
+          aria-label="Anterior"
+        >
+          ←
+        </button>
+        <div className="flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {visible.map((item, idx) => (
+              <div key={idx}>{renderItem(item)}</div>
+            ))}
+          </div>
+        </div>
+        <button
+          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
+          onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+          disabled={page >= totalPages - 1}
+          aria-label="Siguiente"
+        >
+          →
+        </button>
+      </div>
+      <div
+        className="flex justify-center gap-2 mt-3"
+        role="tablist"
+        aria-label={dotsId || "paginacion"}
+      >
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i)}
+            className={`h-2.5 w-2.5 rounded-full border ${
+              i === page
+                ? "bg-[#c2185b] border-[#c2185b]"
+                : "bg-white dark:bg-[#1c1828]"
+            }`}
+            aria-label={`Ir a página ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Libros() {
-  const { data, loading, error } = useProducts({ category: "libros" });
+  const { data, loading, error } = useProducts({
+    category: "libros",
+    perPage: 999,
+  });
   const destacadoRef = useRef(null);
   const nuevosRef = useRef(null);
   const catalogoId = "catalogo-libros";
@@ -22,16 +106,16 @@ export default function Libros() {
 
     const shuffled = [...data].sort(() => Math.random() - 0.5);
 
-    // Recién llegados: priorizar los más nuevos por id, hasta 8
+    // Recién llegados: priorizar los más nuevos por id
     const byNewest = [...data].sort((a, b) => b.id - a.id);
-    const recienLlegados = byNewest.slice(0, 8);
+    const recienLlegados = byNewest;
 
     // Más vendidos: simulamos con rating.count más alto, evitando repetir los de recién
     let masVendidosSource = [...data]
       .sort((a, b) => (b?.rating?.count || 0) - (a?.rating?.count || 0))
       .filter((p) => !recienLlegados.some((r) => r.id === p.id));
     if (masVendidosSource.length === 0) masVendidosSource = shuffled;
-    const masVendidos = masVendidosSource.slice(0, 8);
+    const masVendidos = masVendidosSource;
 
     // En oferta: productos con descuento, evitando repetir anteriores
     let ofertaBase = data.filter((p) => Number(p.discount) > 0);
@@ -42,7 +126,7 @@ export default function Libros() {
         !masVendidos.some((m) => m.id === p.id)
     );
     if (enOfertaSource.length === 0) enOfertaSource = shuffled;
-    const enOferta = enOfertaSource.slice(0, 8);
+    const enOferta = enOfertaSource;
 
     return { recienLlegados, masVendidos, enOferta };
   }, [data]);
@@ -147,16 +231,33 @@ export default function Libros() {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {(tab === "recien"
+            {(
+              tab === "recien"
                 ? recienLlegados
                 : tab === "vendidos"
                 ? masVendidos
                 : enOferta
-              ).map((p) => (
-                <DealCard key={p.id} product={p} onQuickView={setQuick} />
-              ))}
-            </div>
+            ).length === 0 ? (
+              <p className="text-sm text-gray-600 dark:text-gray-300 text-center">
+                No hay productos para mostrar en esta sección.
+              </p>
+            ) : (
+              <Carousel
+                key={tab}
+                items={
+                  tab === "recien"
+                    ? recienLlegados
+                    : tab === "vendidos"
+                    ? masVendidos
+                    : enOferta
+                }
+                perPageConfig={{ mobile: 1, tablet: 2, desktop: 4 }}
+                dotsId={`libros-${tab}`}
+                renderItem={(p) => (
+                  <DealCard key={p.id} product={p} onQuickView={setQuick} />
+                )}
+              />
+            )}
           </div>
           {quick && (
             <QuickViewModal product={quick} onClose={() => setQuick(null)} />
@@ -201,11 +302,13 @@ export default function Libros() {
             No hay productos en esta categoría.
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {data.slice(0, 8).map((p) => (
-              <ProductCard key={p.id} p={p} />
-            ))}
-          </div>
+          <Carousel
+            key="libros-nuevos"
+            items={data}
+            perPageConfig={{ mobile: 1, tablet: 2, desktop: 4 }}
+            dotsId="libros-nuevos"
+            renderItem={(p) => <ProductCard key={p.id} p={p} />}
+          />
         )}
       </section>
 

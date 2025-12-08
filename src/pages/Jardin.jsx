@@ -87,7 +87,10 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 }
 
 export default function Jardin() {
-  const { data, loading, error } = useProducts({ category: "jardin" });
+  const { data, loading, error } = useProducts({
+    category: "jardin",
+    perPage: 999,
+  });
   const tabSectionRef = useRef(null);
   const catalogoId = "catalogo-jardin";
 
@@ -99,13 +102,13 @@ export default function Jardin() {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
 
     const byNewest = [...data].sort((a, b) => b.id - a.id);
-    const recien = byNewest.slice(0, 8);
+    const recien = byNewest;
 
     let masVendidosSource = [...data]
       .sort((a, b) => Number(b.price) - Number(a.price))
       .filter((p) => !recien.some((r) => r.id === p.id));
     if (masVendidosSource.length === 0) masVendidosSource = shuffled;
-    const masVendidos = masVendidosSource.slice(0, 8);
+    const masVendidos = masVendidosSource;
 
     let ofertaBase = data.filter((p) => Number(p.discount) > 0);
     if (ofertaBase.length === 0) ofertaBase = shuffled;
@@ -115,7 +118,7 @@ export default function Jardin() {
         !masVendidos.some((m) => m.id === p.id)
     );
     if (enOfertaSource.length === 0) enOfertaSource = shuffled;
-    const enOferta = enOfertaSource.slice(0, 8);
+    const enOferta = enOfertaSource;
 
     return { recienLlegados: recien, masVendidos, enOferta };
   }, [data]);
@@ -244,6 +247,7 @@ export default function Jardin() {
           </p>
         ) : (
           <Carousel
+            key={activeTab.id}
             items={activeTab.items}
             perPageConfig={{ mobile: 1, tablet: 2, desktop: 4 }}
             dotsId={`jardin-${activeTab.id}`}

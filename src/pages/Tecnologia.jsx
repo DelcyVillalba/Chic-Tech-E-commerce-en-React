@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProducts } from "../hooks/useProducts";
 import Loader from "../components/Loader";
 import ErrorState from "../components/ErrorState";
@@ -6,6 +6,87 @@ import DealCard from "../components/DealCard";
 import QuickViewModal from "../components/QuickViewModal";
 import CategoryCatalog from "../components/CategoryCatalog";
 import SubscribeBanner from "../components/SubscribeBanner";
+
+// Carrusel reutilizable (similar al de Mujer/Home)
+function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
+  const calc = () => {
+    if (typeof window === "undefined") return config.desktop;
+    const w = window.innerWidth;
+    if (w < 640) return config.mobile;
+    if (w < 1024) return config.tablet;
+    return config.desktop;
+  };
+  const [perPage, setPerPage] = useState(calc);
+
+  useEffect(() => {
+    const onResize = () => setPerPage(calc());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  return perPage;
+}
+
+function Carousel({ items, renderItem, perPageConfig, dotsId }) {
+  const perPage = usePerPage(perPageConfig);
+  const [page, setPage] = useState(0);
+
+  const totalPages = Math.max(1, Math.ceil(items.length / perPage));
+  useEffect(() => {
+    setPage(0);
+  }, [perPage, items.length]);
+
+  const start = page * perPage;
+  const visible = items.slice(start, start + perPage);
+
+  return (
+    <div className="relative">
+      <div className="flex items-center gap-3">
+        <button
+          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
+          onClick={() => setPage((p) => Math.max(0, p - 1))}
+          disabled={page <= 0}
+          aria-label="Anterior"
+        >
+          ←
+        </button>
+        <div className="flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {visible.map((item, idx) => (
+              <div key={idx}>{renderItem(item)}</div>
+            ))}
+          </div>
+        </div>
+        <button
+          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
+          onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+          disabled={page >= totalPages - 1}
+          aria-label="Siguiente"
+        >
+          →
+        </button>
+      </div>
+      <div
+        className="flex justify-center gap-2 mt-3"
+        role="tablist"
+        aria-label={dotsId || "paginacion"}
+      >
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i)}
+            className={`h-2.5 w-2.5 rounded-full border ${
+              i === page
+                ? "bg-[#c2185b] border-[#c2185b]"
+                : "bg-white dark:bg-[#1c1828]"
+            }`}
+            aria-label={`Ir a página ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Tecnologia() {
   const { data, loading, error } = useProducts({ category: "tecnologia" });
@@ -537,11 +618,21 @@ export default function Tecnologia() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {getTabItems(data, tab).map((p) => (
-                <DealCard key={p.id} product={p} onQuickView={setQuick} />
-              ))}
-            </div>
+            {getTabItems(data, tab).length === 0 ? (
+              <p className="text-sm text-gray-600 dark:text-gray-300 text-center">
+                No hay productos para mostrar en esta sección.
+              </p>
+            ) : (
+              <Carousel
+                key={tab}
+                items={getTabItems(data, tab)}
+                perPageConfig={{ mobile: 1, tablet: 2, desktop: 4 }}
+                dotsId={`tecno-${tab}`}
+                renderItem={(p) => (
+                  <DealCard key={p.id} product={p} onQuickView={setQuick} />
+                )}
+              />
+            )}
           </div>
           {quick && (
             <QuickViewModal product={quick} onClose={() => setQuick(null)} />
