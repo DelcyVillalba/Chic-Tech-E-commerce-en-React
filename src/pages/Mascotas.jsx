@@ -97,7 +97,32 @@ export default function Mascotas() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const destacados = useMemo(() => data.slice(0, 8), [data]);
+  const { accesoriosDestacados, mejorCalificados } = useMemo(() => {
+    if (!data || data.length === 0) {
+      return { accesoriosDestacados: [], mejorCalificados: [] };
+    }
+
+    // Mezclamos todo el catálogo de mascotas una sola vez
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+
+    // Accesorios destacados: primeros hasta 4 productos de la mezcla
+    const accesoriosCount = Math.min(4, shuffled.length);
+    const accesoriosDestacados = shuffled.slice(0, accesoriosCount);
+
+    // Productos mejor calificados: siguiente bloque de la misma mezcla,
+    // así evitamos repetir los mismos productos siempre que haya stock suficiente
+    let remaining = shuffled.slice(accesoriosCount);
+
+    // Si hay muy pocos productos y no queda "remaining", rotamos la lista
+    // para que al menos el orden visual sea distinto
+    if (remaining.length === 0) {
+      remaining = [...shuffled.slice(1), shuffled[0]].filter(Boolean);
+    }
+
+    const mejorCalificados = remaining.slice(0, Math.min(6, remaining.length));
+
+    return { accesoriosDestacados, mejorCalificados };
+  }, [data]);
 
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;
@@ -196,7 +221,7 @@ export default function Mascotas() {
       </section>
 
       {/* Collage simple de accesorios */}
-      {destacados.length > 0 && (
+      {accesoriosDestacados.length > 0 && (
         <section
           ref={accesoriosRef}
           className="max-w-6xl mx-auto px-4 pt-10 pb-12"
@@ -207,7 +232,7 @@ export default function Mascotas() {
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-            {destacados.slice(0, 4).map((p) => (
+            {accesoriosDestacados.map((p) => (
               <Link
                 key={p.id}
                 to={`/product/${p.id}`}
@@ -230,24 +255,15 @@ export default function Mascotas() {
       )}
 
       {/* Productos mejor calificados */}
-      {data.length > 0 && (
+      {mejorCalificados.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 pb-16">
           <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
             Productos mejor calificados
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {data
-              .slice()
-              .sort((a, b) => (b.rating?.rate || 0) - (a.rating?.rate || 0))
-              .slice(0, 6)
-              .map((p) => {
-                const rate = Math.round(p.rating?.rate || 0);
-                const hasDiscount = p.discount > 0;
-                const final = hasDiscount
-                  ? p.price * (1 - p.discount / 100)
-                  : p.price;
-                return <ProductCard key={p.id} p={p} />;
-              })}
+            {mejorCalificados.map((p) => (
+              <ProductCard key={p.id} p={p} />
+            ))}
           </div>
         </section>
       )}

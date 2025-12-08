@@ -201,16 +201,16 @@ export default function ProductForm() {
             list="img-options"
           />
           <datalist id="img-options">
-            <option value="/tecnologia/1 (1).png" />
-            <option value="/mujer/1.png" />
-            <option value="/hombre/10 (1).png" />
-            <option value="/accesorios/11.png" />
-            <option value="/cosmeticos/1 (11).png" />
-            <option value="/hogar/1 (2).png" />
-            <option value="/jardin/1 (3).png" />
-            <option value="/libros/1 (5).png" />
-            <option value="/mascotas/1 (10).png" />
-            <option value="/ninos/23.png" />
+            <option value="/mujer/" />
+            <option value="/hombre/" />
+            <option value="/ninos/" />
+            <option value="/accesorios/" />
+            <option value="/cosmeticos/" />
+            <option value="/hogar/" />
+            <option value="/jardin/" />
+            <option value="/mascotas/" />
+            <option value="/tecnologia/" />
+            <option value="/libros/" />
           </datalist>
           {form.image && (
             <img src={form.image} alt="" className="h-32 object-contain" />

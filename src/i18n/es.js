@@ -12,7 +12,7 @@ export const tCategory = {
   jardin: "Jardín",
   libros: "Libros",
   mascotas: "Mascotas",
-  niño: "Niños",
+  ninos: "Niños",
 };
 
 export const rules = [

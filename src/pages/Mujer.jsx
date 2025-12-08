@@ -95,9 +95,34 @@ export default function Mujer() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const masVendidos = useMemo(() => data.slice(0, 8), [data]);
-  const recienLlegados = useMemo(() => data.slice().reverse().slice(0, 8), [data]);
-  const enOferta = useMemo(() => data.filter((p) => (p.discount || 0) > 0).slice(0, 8), [data]);
+  const { recienLlegados, masVendidos, enOferta } = useMemo(() => {
+    if (!data || data.length === 0) {
+      return { recienLlegados: [], masVendidos: [], enOferta: [] };
+    }
+
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+
+    const byNewest = [...data].sort((a, b) => b.id - a.id);
+    const recien = byNewest.slice(0, 8);
+
+    let masVendidosSource = [...data]
+      .sort((a, b) => Number(b.price) - Number(a.price))
+      .filter((p) => !recien.some((r) => r.id === p.id));
+    if (masVendidosSource.length === 0) masVendidosSource = shuffled;
+    const masVendidos = masVendidosSource.slice(0, 8);
+
+    let ofertaBase = data.filter((p) => Number(p.discount) > 0);
+    if (ofertaBase.length === 0) ofertaBase = shuffled;
+    let enOfertaSource = ofertaBase.filter(
+      (p) =>
+        !recien.some((r) => r.id === p.id) &&
+        !masVendidos.some((m) => m.id === p.id)
+    );
+    if (enOfertaSource.length === 0) enOfertaSource = shuffled;
+    const enOferta = enOfertaSource.slice(0, 8);
+
+    return { recienLlegados: recien, masVendidos, enOferta };
+  }, [data]);
   const [tab, setTab] = useState("recien");
   const tabs = [
     { id: "recien", label: "Recién llegados", items: recienLlegados },

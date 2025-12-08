@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useProducts } from "../hooks/useProducts";
 import ProductCard from "../components/ProductCard";
 import Loader from "../components/Loader";
@@ -15,6 +15,37 @@ export default function Libros() {
   const catalogoId = "catalogo-libros";
   const [tab, setTab] = useState("recien"); // recien | vendidos | oferta
   const [quick, setQuick] = useState(null);
+  const { recienLlegados, masVendidos, enOferta } = useMemo(() => {
+    if (!data || data.length === 0) {
+      return { recienLlegados: [], masVendidos: [], enOferta: [] };
+    }
+
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+
+    // Recién llegados: priorizar los más nuevos por id, hasta 8
+    const byNewest = [...data].sort((a, b) => b.id - a.id);
+    const recienLlegados = byNewest.slice(0, 8);
+
+    // Más vendidos: simulamos con rating.count más alto, evitando repetir los de recién
+    let masVendidosSource = [...data]
+      .sort((a, b) => (b?.rating?.count || 0) - (a?.rating?.count || 0))
+      .filter((p) => !recienLlegados.some((r) => r.id === p.id));
+    if (masVendidosSource.length === 0) masVendidosSource = shuffled;
+    const masVendidos = masVendidosSource.slice(0, 8);
+
+    // En oferta: productos con descuento, evitando repetir anteriores
+    let ofertaBase = data.filter((p) => Number(p.discount) > 0);
+    if (ofertaBase.length === 0) ofertaBase = shuffled;
+    let enOfertaSource = ofertaBase.filter(
+      (p) =>
+        !recienLlegados.some((r) => r.id === p.id) &&
+        !masVendidos.some((m) => m.id === p.id)
+    );
+    if (enOfertaSource.length === 0) enOfertaSource = shuffled;
+    const enOferta = enOfertaSource.slice(0, 8);
+
+    return { recienLlegados, masVendidos, enOferta };
+  }, [data]);
 
   const scrollTo = (ref) => ref?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
@@ -117,7 +148,12 @@ export default function Libros() {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {getTabItems(data, tab).map((p) => (
+              {(tab === "recien"
+                ? recienLlegados
+                : tab === "vendidos"
+                ? masVendidos
+                : enOferta
+              ).map((p) => (
                 <DealCard key={p.id} product={p} onQuickView={setQuick} />
               ))}
             </div>
@@ -187,17 +223,4 @@ export default function Libros() {
       <SubscribeBanner />
     </div>
   );
-}
-
-function getTabItems(data, tab) {
-  if (tab === "vendidos") {
-    return [...data]
-      .sort((a, b) => (b?.rating?.count || 0) - (a?.rating?.count || 0))
-      .slice(0, 8);
-  }
-  if (tab === "oferta") {
-    return data.filter((p) => (p.discount || 0) > 0).slice(0, 8);
-  }
-  // Recién llegados: priorizar los últimos agregados (ids más altos)
-  return [...data].sort((a, b) => b.id - a.id).slice(0, 8);
 }

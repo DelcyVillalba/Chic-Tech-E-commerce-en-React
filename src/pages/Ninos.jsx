@@ -8,18 +8,18 @@ import SubscribeBanner from "../components/SubscribeBanner";
 
 const bannerCards = [
   {
-    img: "/niño/banner11.webp",
-    title: "Niños varones",
+    img: "/ninos/banner11.webp",
+    title: "Niños",
     subt: "Desde $9.990",
   },
   {
-    img: "/niño/banner12.webp",
-    title: "Niñas",
+    img: "/ninos/banner12.webp",
+    title: "Tee",
     subt: "Desde $7.990",
   },
   {
-    img: "/niño/banner13.webp",
-    title: "Presentado",
+    img: "/ninos/banner13.webp",
+    title: "niña",
     subt: "Looks listos para usar",
   },
 ];
@@ -102,7 +102,7 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 }
 
 export default function Ninos() {
-  const { data, loading, error } = useProducts({ category: "niño" });
+  const { data, loading, error } = useProducts({ category: "ninos" });
   const destacadosRef = useRef(null);
   const ultimosRef = useRef(null);
   const catalogoId = "catalogo-ninos";
@@ -131,7 +131,7 @@ export default function Ninos() {
             className="w-full h-full"
             style={{
               backgroundImage:
-                "linear-gradient(90deg, rgba(0,0,0,0.01), rgba(0,0,0,0.02)), url(/niño/slider.webp)",
+                "linear-gradient(90deg, rgba(0,0,0,0.01), rgba(0,0,0,0.02)), url(/ninos/slider.webp)",
               backgroundSize: "cover",
               backgroundPosition: "28% center",
             }}
@@ -231,7 +231,7 @@ export default function Ninos() {
         <div className="grid md:grid-cols-2 items-center overflow-hidden rounded-3xl gap-4">
           <div className="flex justify-center">
             <img
-              src="/niño/deal-4.png"
+              src="/ninos/deal-4.png"
               alt="Oferta del día"
               className="w-full max-w-md h-64 object-contain"
             />
@@ -279,7 +279,7 @@ export default function Ninos() {
       {/* Catálogo completo */}
       <div className="max-w-6xl mx-auto px-4 pb-12">
         <CategoryCatalog
-          category="niño"
+          category="ninos"
           title="Catálogo"
           anchorId={catalogoId}
           perPage={8}

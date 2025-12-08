@@ -25,50 +25,59 @@ function useProductsHook(params) {
   const all = useMemo(() => raw.map(translate), [raw]);
 
   const filtered = useMemo(() => {
+    const category = params?.category;
+    const q = params?.q;
+    const min = params?.min;
+    const max = params?.max;
+    const sort = params?.sort;
+
     let arr = all;
 
     // Filtrar por categoría
-    if (params?.category)
-      arr = arr.filter((p) => p.category === params.category);
+    if (category) arr = arr.filter((p) => p.category === category);
 
     // Búsqueda por nombre
-    if (params?.q) {
-      const q = params.q.toLowerCase();
+    if (q) {
+      const qLower = q.toLowerCase();
       arr = arr.filter((p) =>
-        (p.title || p.name || "").toLowerCase().includes(q)
+        (p.title || p.name || "").toLowerCase().includes(qLower)
       );
     }
 
     // Filtro por precio mínimo
-    if (params?.min !== "" && params?.min != null)
-      arr = arr.filter((p) => p.price >= Number(params.min));
+    if (min !== "" && min != null)
+      arr = arr.filter((p) => p.price >= Number(min));
 
     // Filtro por precio máximo
-    if (params?.max !== "" && params?.max != null)
-      arr = arr.filter((p) => p.price <= Number(params.max));
+    if (max !== "" && max != null)
+      arr = arr.filter((p) => p.price <= Number(max));
 
-    // Ordenamientos
-    switch (params?.sort) {
-      case "price-asc":
-        arr = [...arr].sort((a, b) => a.price - b.price);
-        break;
-      case "price-desc":
-        arr = [...arr].sort((a, b) => b.price - a.price);
-        break;
-      case "title-asc":
-        arr = [...arr].sort((a, b) =>
-          (a.title || a.name || "").localeCompare(b.title || b.name || "")
-        );
-        break;
-      case "title-desc":
-        arr = [...arr].sort((a, b) =>
-          (b.title || b.name || "").localeCompare(a.title || a.name || "")
-        );
-        break;
+    // Ordenamientos explícitos
+    if (sort) {
+      switch (sort) {
+        case "price-asc":
+          arr = [...arr].sort((a, b) => a.price - b.price);
+          break;
+        case "price-desc":
+          arr = [...arr].sort((a, b) => b.price - a.price);
+          break;
+        case "title-asc":
+          arr = [...arr].sort((a, b) =>
+            (a.title || a.name || "").localeCompare(b.title || b.name || "")
+          );
+          break;
+        case "title-desc":
+          arr = [...arr].sort((a, b) =>
+            (b.title || b.name || "").localeCompare(a.title || a.name || "")
+          );
+          break;
+      }
+      return arr;
     }
 
-    return arr;
-  }, [all, JSON.stringify(params)]);
+    // Sin orden seleccionado: mezclar aleatoriamente
+    return [...arr].sort(() => Math.random() - 0.5);
+  }, [all, params?.category, params?.q, params?.min, params?.max, params?.sort]);
 
   // Paginado
   const page = Number(params?.page || 1),

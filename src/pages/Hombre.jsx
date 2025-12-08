@@ -90,12 +90,38 @@ export default function Hombre() {
   const [tab, setTab] = useState("recien");
   const catalogoId = "catalogo-hombre";
 
-  const recienLlegados = useMemo(
-    () => data.slice().reverse().slice(0, 8),
-    [data]
-  );
-  const masVendidos = useMemo(() => data.slice(0, 8), [data]);
-  const enOferta = useMemo(() => data.slice(0, 8), [data]); // reemplazar si hay flag de oferta
+  const { recienLlegados, masVendidos, enOferta } = useMemo(() => {
+    if (!data || data.length === 0) {
+      return { recienLlegados: [], masVendidos: [], enOferta: [] };
+    }
+
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+
+    // Recién llegados: priorizar los más nuevos, pero mezclados
+    const byNewest = [...data].sort((a, b) => b.id - a.id);
+    const recien = byNewest.slice(0, 8);
+
+    // Más vendidos (simulado): precios más altos, evitando repetir todos los de recién
+    let masVendidosSource = [...data]
+      .sort((a, b) => Number(b.price) - Number(a.price))
+      .filter((p) => !recien.some((r) => r.id === p.id));
+    if (masVendidosSource.length === 0) masVendidosSource = shuffled;
+    const masVendidos = masVendidosSource.slice(0, 8);
+
+    // En oferta: productos con descuento; si no hay, usar mezcla general
+    let ofertaBase = data.filter((p) => Number(p.discount) > 0);
+    if (ofertaBase.length === 0) ofertaBase = shuffled;
+    let enOfertaSource = ofertaBase.filter(
+      (p) =>
+        !recien.some((r) => r.id === p.id) &&
+        !masVendidos.some((m) => m.id === p.id)
+    );
+    if (enOfertaSource.length === 0) enOfertaSource = shuffled;
+    const enOferta = enOfertaSource.slice(0, 8);
+
+    return { recienLlegados: recien, masVendidos, enOferta };
+  }, [data]);
+
   const tabs = [
     { id: "recien", label: "Recién llegados", items: recienLlegados },
     { id: "vendidos", label: "Los más vendidos", items: masVendidos },

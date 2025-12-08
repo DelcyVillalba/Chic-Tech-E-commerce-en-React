@@ -8,10 +8,10 @@ export default function Hogar() {
   const { data, loading, error } = useProducts({ category: "hogar" });
   const catalogoId = "catalogo-hogar";
   const categoriasDestacadas = [
-    { img: "/hogar/1 (2).png", titulo: "3 productos", subt: "sala de estar" },
-    { img: "/hogar/9 (1).png", titulo: "5 productos", subt: "Oficina" },
-    { img: "/hogar/1 (3).png", titulo: "6 productos", subt: "Deco y textiles" },
-    { img: "/hogar/6 (1).png", titulo: "4 productos", subt: "Comedor" },
+    { img: "/hogar/1.webp", titulo: "3 productos", subt: "sala de estar" },
+    { img: "/hogar/2.webp", titulo: "5 productos", subt: "Oficina" },
+    { img: "/hogar/3.webp", titulo: "4 productos", subt: "Comedor" },
+    { img: "/hogar/4.webp", titulo: "6 productos", subt: "Deco textil" },
   ];
 
   const scrollToCatalogo = () => {
