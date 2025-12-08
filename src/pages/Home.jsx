@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import DailyDeals from "../components/DailyDeals";
 import ErrorState from "../components/ErrorState";
 import Hero from "../components/Hero";
@@ -46,7 +46,24 @@ export default function Home() {
     }
   }, [location.state, navigate]);
 
-  const { data, loading, error, totalPages } = useProducts(filters);
+  // Scroll automático al catálogo cuando venimos de la lupa (hash #catalogo)
+  useEffect(() => {
+    if (location.hash === "#catalogo") {
+      const el =
+        document.getElementById("catalogo-anchor") ||
+        document.getElementById("catalogo");
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const offset = 80;
+        window.scrollTo({
+          top: rect.top + window.scrollY - offset,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [location.hash]);
+
+  const { data, loading, error, total, totalPages } = useProducts(filters);
   const handlePageChange = (p) => {
     setFilters((f) => ({ ...f, page: p }));
 
@@ -67,6 +84,8 @@ export default function Home() {
   const onChange = (f) => setFilters((prev) => ({ ...prev, ...f, page: 1 }));
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;
+
+  const hasProducts = data && data.length > 0;
 
   return (
     <>
@@ -307,19 +326,58 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <div id="catalogo-anchor" className="h-4" />
-        <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
+        <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
           <h1 className="text-2xl sm:text-3xl font-semibold">Catálogo</h1>
         </div>
+        {filters.q && (
+          <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
+            {hasProducts
+              ? `Mostrando ${total} resultado${total === 1 ? "" : "s"} para “${
+                  filters.q
+                }”.`
+              : `No encontramos productos para “${filters.q}”.`}
+          </p>
+        )}
 
         <section id="catalogo" className="min-h-24">
           {loading && <Loader />}
           {error && <ErrorState message={error} />}
           {!loading && !error && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {data.map((p) => (
-                <ProductCard key={p.id} p={p} />
-              ))}
-            </div>
+            <>
+              {hasProducts ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {data.map((p) => (
+                    <ProductCard key={p.id} p={p} />
+                  ))}
+                </div>
+              ) : (
+                <div className="py-8 text-center text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                  <p>
+                    {filters.q
+                      ? `No encontramos productos para “${filters.q}” con los filtros actuales.`
+                      : "No hay productos que coincidan con los filtros seleccionados."}
+                  </p>
+                  <p>
+                    Si estás buscando algo específico que aún no tenemos,
+                    podés escribirnos desde la página de{" "}
+                    <Link
+                      to="/contact"
+                      className="underline font-semibold"
+                    >
+                      contacto
+                    </Link>{" "}
+                    o enviarnos un correo a{" "}
+                    <a
+                      href="mailto:info@chictech.com"
+                      className="underline"
+                    >
+                      info@chictech.com
+                    </a>
+                    .
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </section>
 

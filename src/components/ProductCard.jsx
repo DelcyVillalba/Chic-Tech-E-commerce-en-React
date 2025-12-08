@@ -35,7 +35,7 @@ export default function ProductCard({ p }) {
         </div>
       )}
 
-      <div className="relative bg-gray-200 dark:bg-[#1c1828] overflow-hidden flex-1 h-48 sm:h-56">
+      <div className="relative bg-gray-200 dark:bg-[#1c1828] overflow-hidden flex-1 h-32 sm:h-56">
         <Link
           to={`/product/${p.id}`}
           className="block h-full"
