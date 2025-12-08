@@ -14,7 +14,7 @@ const bannerCards = [
   },
   {
     img: "/ninos/banner12.webp",
-    title: "Tee",
+    title: "Teen",
     subt: "Desde $7.990",
   },
   {
