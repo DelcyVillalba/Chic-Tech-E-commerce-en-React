@@ -157,7 +157,7 @@ export default function Cosmeticos() {
   return (
     <div className="bg-white dark:bg-[#0b0913] text-zinc-900 dark:text-zinc-200 transition-colors">
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
           <div
             className="w-full h-full"
@@ -169,7 +169,7 @@ export default function Cosmeticos() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-60 text-center space-y-5">
+        <div className="relative max-w-6xl mx-auto px-6 py-12 md:py-16 text-center space-y-5">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-gray-100">
             Cosmética de moda
           </h1>

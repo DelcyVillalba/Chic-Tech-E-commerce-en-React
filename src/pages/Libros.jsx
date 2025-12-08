@@ -139,7 +139,7 @@ export default function Libros() {
   return (
     <div className="bg-white dark:bg-[#0b0913] dark:text-gray-100 transition-colors">
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
           <div
             className="w-full h-full"
@@ -151,7 +151,7 @@ export default function Libros() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-48 grid md:grid-cols-2 items-center gap-8 text-white">
+        <div className="relative max-w-6xl mx-auto px-6 py-12 md:py-16 grid md:grid-cols-2 items-center gap-8 text-white">
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.25em] text-white/75">
               Lecturas destacadas

@@ -20,7 +20,7 @@ export default function GlobalFilterBar() {
 
   const initial = useMemo(
     () => ({
-      q: params.get("q") ?? "",
+      q: "",
       category: params.get("category") ?? (defaults.category ?? ""),
       sort: params.get("sort") ?? (defaults.sort ?? ""),
       min: parseNumber(params.get("min") ?? defaults.min),
@@ -48,20 +48,21 @@ export default function GlobalFilterBar() {
     if (filters.q) sp.set("q", filters.q);
     if (filters.category) sp.set("category", filters.category);
     if (filters.sort) sp.set("sort", filters.sort);
-    if (filters.min !== "" && !Number.isNaN(filters.min)) sp.set("min", String(filters.min));
-    if (filters.max !== "" && !Number.isNaN(filters.max)) sp.set("max", String(filters.max));
+    if (filters.min !== "" && !Number.isNaN(filters.min))
+      sp.set("min", String(filters.min));
+    if (filters.max !== "" && !Number.isNaN(filters.max))
+      sp.set("max", String(filters.max));
 
-    navigate(
-      {
-        pathname: "/",
-        search: sp.toString() ? `?${sp.toString()}` : "",
-        hash: "catalogo",
-      },
-      {
-        replace: false,
-        state: { restoreScroll: true, showFilters: true },
-      }
-    );
+    navigate({
+      pathname: "/buscar",
+      search: sp.toString() ? `?${sp.toString()}` : "",
+    }, {
+      replace: false,
+      state: { showFilters: false },
+    });
+
+    // Limpiar el campo de búsqueda visualmente
+    setFilters((prev) => ({ ...prev, q: "" }));
   };
 
   const visible = location.state?.showFilters === true;
@@ -69,16 +70,14 @@ export default function GlobalFilterBar() {
   return (
     <section
       id="global-filter-bar"
-      className={`sticky top-16 sm:top-20 z-20 bg-white/95 dark:bg-[#0f0b14]/95 backdrop-blur border-b border-zinc-200 dark:border-[#1f1a2e] overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${
-        visible
+      className={`sticky top-16 sm:top-20 z-20 bg-white/95 dark:bg-[#0f0b14]/95 backdrop-blur border-b border-zinc-200 dark:border-[#1f1a2e] overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${visible
           ? "max-h-[260px] opacity-100 pointer-events-auto"
           : "max-h-0 opacity-0 pointer-events-none"
-      }`}
+        }`}
     >
       <div
-        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row md:items-center gap-3 transition-transform duration-500 ease-in-out ${
-          visible ? "translate-y-0" : "-translate-y-2"
-        }`}
+        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row md:items-center gap-3 transition-transform duration-500 ease-in-out ${visible ? "translate-y-0" : "-translate-y-2"
+          }`}
       >
         <div className="relative flex-1 min-w-[180px]">
           <svg

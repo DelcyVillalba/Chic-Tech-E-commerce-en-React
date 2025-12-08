@@ -28,6 +28,7 @@ import Checkout from "../pages/Checkout";
 import AdminUsers from "../pages/AdminUsers";
 import AdminReports from "../pages/AdminReports";
 import AdminSettings from "../pages/AdminSettings";
+import SearchResults from "../pages/SearchResults";
 
 console.log("🔧 VITE_API_URL:", import.meta.env.VITE_API_URL);
 
@@ -54,6 +55,7 @@ export const router = createBrowserRouter([
       { path: "/libros", element: <Libros /> },
       { path: "/mascotas", element: <Mascotas /> },
       { path: "/ninos", element: <Ninos /> },
+      { path: "/buscar", element: <SearchResults /> },
       {
         element: <ProtectedRoute requireAdmin />,
         children: [

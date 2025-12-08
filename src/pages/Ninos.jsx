@@ -135,7 +135,7 @@ export default function Ninos() {
   return (
     <div className="bg-gray-50 dark:bg-[#0b0913] text-zinc-900 dark:text-zinc-100 transition-colors">
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0 overflow-hidden">
           <div
             className="w-full h-full"
@@ -146,9 +146,8 @@ export default function Ninos() {
               backgroundPosition: "28% center",
             }}
           />
-          <div className="hidden dark:block absolute bottom-0 left-0 right-0 h-6 bg-[#0b0913]"></div>
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-60 grid md:grid-cols-2 items-center gap-10">
+        <div className="relative max-w-6xl mx-auto px-6 py-12 md:py-16 grid md:grid-cols-2 items-center gap-10">
           <div />
           <div className="space-y-4 text-center md:text-right md:justify-self-start md:max-w-md w-full md:pr-10">
             <p className="text-sm font-semibold text-gray-50 dark:text-gray-50">
@@ -164,13 +163,7 @@ export default function Ninos() {
             <div className="flex justify-end">
               <button
                 className="mt-2 rounded-xl px-6 py-3 font-semibold text-white bg-[#c2185b] hover:bg-[#a3154a] transition-colors dark:bg-black dark:hover:bg-zinc-900"
-                onClick={() => {
-                  setTab("recien");
-                  destacadosRef.current?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }}
+                onClick={() => scrollTo(destacadosRef)}
               >
                 Comprar ahora
               </button>

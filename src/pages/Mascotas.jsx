@@ -130,7 +130,7 @@ export default function Mascotas() {
   return (
     <div className="bg-white dark:bg-[#0b0913] text-zinc-900 dark:text-zinc-100 transition-colors">
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
           <div
             className="w-full h-full"
@@ -142,7 +142,7 @@ export default function Mascotas() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-9 md:py-52 grid md:grid-cols-2 items-center gap-8 text-white">
+        <div className="relative max-w-6xl mx-auto px-6 py-12 md:py-16 grid md:grid-cols-2 items-center gap-8 text-white">
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.2em] text-white/80">
               Accesorios para mascotas

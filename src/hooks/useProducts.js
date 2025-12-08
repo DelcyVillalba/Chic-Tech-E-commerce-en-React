@@ -2,6 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import { getProducts } from "../api/products";
 import { translate } from "../i18n/es";
 
+const normalizeText = (val) => {
+  if (!val) return "";
+  try {
+    return val
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  } catch {
+    return val.toString().toLowerCase();
+  }
+};
+
 function useProductsHook(params) {
   const [raw, setRaw] = useState([]),
     [loading, setLoading] = useState(true),
@@ -36,12 +49,13 @@ function useProductsHook(params) {
     // Filtrar por categoría
     if (category) arr = arr.filter((p) => p.category === category);
 
-    // Búsqueda por nombre
+    // Búsqueda por nombre (insensible a mayúsculas y acentos)
     if (q) {
-      const qLower = q.toLowerCase();
-      arr = arr.filter((p) =>
-        (p.title || p.name || "").toLowerCase().includes(qLower)
-      );
+      const qNorm = normalizeText(q);
+      arr = arr.filter((p) => {
+        const text = normalizeText(p.title || p.name || "");
+        return text.includes(qNorm);
+      });
     }
 
     // Filtro por precio mínimo

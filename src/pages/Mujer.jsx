@@ -144,7 +144,7 @@ export default function Mujer() {
   return (
     <div className="bg-white">
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
           <div
             className="w-full h-full"
@@ -156,7 +156,7 @@ export default function Mujer() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-60 text-center text-white space-y-5">
+        <div className="relative max-w-6xl mx-auto px-6 py-12 md:py-16 text-center text-white space-y-5">
           <h1 className="text-4xl md:text-6xl font-bold">
             Productos inteligentes
           </h1>

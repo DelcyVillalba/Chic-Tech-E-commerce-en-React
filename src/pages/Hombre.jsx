@@ -150,7 +150,7 @@ export default function Hombre() {
   return (
     <div className="bg-white dark:bg-[#0b0913] text-zinc-900 dark:text-zinc-100 transition-colors">
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
           <div
             className="w-full h-full"
@@ -162,7 +162,7 @@ export default function Hombre() {
             }}
           />
         </div>
-        <div className="relative max-w-6xl mx-auto px-6 py-16 md:py-60 text-center text-white space-y-5">
+        <div className="relative max-w-6xl mx-auto px-6 py-12 md:py-16 text-center text-white space-y-5">
           <h1 className="text-4xl md:text-5xl font-bold text-white dark:text-[#fbe8ef]">
             Hombre
           </h1>

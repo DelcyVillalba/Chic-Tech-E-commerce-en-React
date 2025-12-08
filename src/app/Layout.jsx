@@ -1,5 +1,5 @@
-import { Outlet, Link, useLocation, useNavigationType } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import WhatsAppButton from "../components/WhatsAppButton";
 import GlobalFilterBar from "../components/GlobalFilterBar";
@@ -7,65 +7,17 @@ import { useBusinessSettings } from "../context/BusinessSettingsContext";
 
 function ScrollManager() {
   const location = useLocation();
-  const action = useNavigationType();
-  const positionsRef = useRef(
-    (() => {
-      try {
-        return JSON.parse(sessionStorage.getItem("scroll-positions") || "{}");
-      } catch {
-        return {};
-      }
-    })()
-  );
 
   useEffect(() => {
-    const key = `${location.pathname}${location.search}`;
-    const stored = positionsRef.current[key];
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
+  }, []);
 
-    const restore = () => {
-      if (typeof stored === "number") {
-        window.scrollTo(0, stored);
-      } else {
-        window.scrollTo(0, 0);
-      }
-    };
-
-    const shouldRestore = action === "POP" || location.state?.restoreScroll;
-
-    if (shouldRestore) {
-      // Restaurar después de renderizar; reintentar tras un pequeño delay
-      requestAnimationFrame(restore);
-      const retry = setTimeout(restore, 120);
-      return () => clearTimeout(retry);
-    }
-
+  useEffect(() => {
+    // En cada cambio de ruta, empezamos desde arriba.
     window.scrollTo(0, 0);
-
-    const onScroll = () => {
-      positionsRef.current[key] = window.scrollY;
-      sessionStorage.setItem(
-        "scroll-positions",
-        JSON.stringify(positionsRef.current)
-      );
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    const onBeforeUnload = () => {
-      positionsRef.current[key] = window.scrollY;
-      sessionStorage.setItem(
-        "scroll-positions",
-        JSON.stringify(positionsRef.current)
-      );
-    };
-    window.addEventListener("beforeunload", onBeforeUnload);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("beforeunload", onBeforeUnload);
-    };
-  }, [location, action]);
+  }, [location.pathname]);
 
   return null;
 }

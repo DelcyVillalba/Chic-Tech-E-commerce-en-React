@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import DailyDeals from "../components/DailyDeals";
 import ErrorState from "../components/ErrorState";
 import Hero from "../components/Hero";
@@ -11,27 +11,16 @@ import SupportStrip from "../components/SupportStrip";
 import useProducts from "../hooks/useProducts";
 
 export default function Home() {
-  const [params] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const initialFilters = useMemo(
-    () => ({
-      q: params.get("q") ?? "",
-      category: params.get("category") ?? "",
-      sort: params.get("sort") ?? "",
-      min: params.get("min") ? Number(params.get("min")) : "",
-      max: params.get("max") ? Number(params.get("max")) : "",
-      page: Number(params.get("page") || 1),
-      perPage: 8,
-    }),
-    [params]
-  );
-  const [filters, setFilters] = useState(initialFilters);
 
-  // Mantener sincronizado el parámetro q con el buscador del navbar
-  useEffect(() => {
-    setFilters(initialFilters);
-  }, [initialFilters]);
+  // En Home solo usamos paginación simple sobre todo el catálogo,
+  // sin sincronizar con la barra de búsqueda global.
+  const [filters, setFilters] = useState({
+    page: 1,
+    perPage: 8,
+  });
+  const { data, loading, error, total, totalPages } = useProducts(filters);
 
   useEffect(() => {
     if (location.state?.restoreCatalog) {
@@ -46,42 +35,16 @@ export default function Home() {
     }
   }, [location.state, navigate]);
 
-  // Scroll automático al catálogo cuando venimos de la lupa (hash #catalogo)
-  useEffect(() => {
-    if (location.hash === "#catalogo") {
-      const el =
-        document.getElementById("catalogo-anchor") ||
-        document.getElementById("catalogo");
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const offset = 80;
-        window.scrollTo({
-          top: rect.top + window.scrollY - offset,
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [location.hash]);
-
-  const { data, loading, error, total, totalPages } = useProducts(filters);
   const handlePageChange = (p) => {
     setFilters((f) => ({ ...f, page: p }));
 
     if (typeof window !== "undefined") {
-      const el =
-        document.getElementById("catalogo-anchor") ||
-        document.getElementById("catalogo");
+      const el = document.getElementById("catalogo");
       if (el) {
-        const rect = el.getBoundingClientRect();
-        const offset = 80;
-        window.scrollTo({
-          top: rect.top + window.scrollY - offset,
-          behavior: "smooth",
-        });
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   };
-  const onChange = (f) => setFilters((prev) => ({ ...prev, ...f, page: 1 }));
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;
 
@@ -324,22 +287,17 @@ export default function Home() {
         </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div id="catalogo-anchor" className="h-4" />
-        <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 relative">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4 sm:mb-5">
           <h1 className="text-2xl sm:text-3xl font-semibold">Catálogo</h1>
+          {hasProducts && (
+            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-200 font-medium">
+              Mostrando {total} producto{total === 1 ? "" : "s"}.
+            </p>
+          )}
         </div>
-        {filters.q && (
-          <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
-            {hasProducts
-              ? `Mostrando ${total} resultado${total === 1 ? "" : "s"} para “${
-                  filters.q
-                }”.`
-              : `No encontramos productos para “${filters.q}”.`}
-          </p>
-        )}
 
-        <section id="catalogo" className="min-h-24">
+        <section id="catalogo" className="min-h-24 scroll-mt-28 sm:scroll-mt-32">
           {loading && <Loader />}
           {error && <ErrorState message={error} />}
           {!loading && !error && (
@@ -351,29 +309,20 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <div className="py-8 text-center text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                <div className="py-8 text-center text-sm sm:text-base text-gray-600 dark:text-gray-300 space-y-2">
                   <p>
-                    {filters.q
-                      ? `No encontramos productos para “${filters.q}” con los filtros actuales.`
-                      : "No hay productos que coincidan con los filtros seleccionados."}
+                    No hay productos disponibles en el catálogo en este momento.
                   </p>
                   <p>
                     Si estás buscando algo específico que aún no tenemos,
                     podés escribirnos desde la página de{" "}
                     <Link
-                      to="/contact"
+                      to="/contacto"
                       className="underline font-semibold"
                     >
                       contacto
                     </Link>{" "}
-                    o enviarnos un correo a{" "}
-                    <a
-                      href="mailto:info@chictech.com"
-                      className="underline"
-                    >
-                      info@chictech.com
-                    </a>
-                    .
+                    o escribirnos directamente por el WhatsApp que ves en la esquina inferior derecha.
                   </p>
                 </div>
               )}
