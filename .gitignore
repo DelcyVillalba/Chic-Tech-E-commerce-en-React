@@ -24,3 +24,6 @@ Thumbs.db
 node_modules
 dist
 .env
+
+# api 
+/Chic-Tech-API
