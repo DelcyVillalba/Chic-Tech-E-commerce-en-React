@@ -35,7 +35,7 @@ export default function Layout() {
       <div className="flex-1">
         <Outlet />
       </div>
-      <footer className="border-t border-zinc-200/60 dark:border-[#1f1a2e] p-4 text-center text-sm bg-[#e5e7eb] dark:bg-[#05040a]/90 backdrop-blur">
+      <footer className="border-t border-[#c5cad8] dark:border-[#1f1a2e] p-4 text-center text-sm bg-[#dde1e8] dark:bg-[#05040a]/90 shadow-inner">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
           <span>{footerText}</span>
           <nav className="flex gap-4">
