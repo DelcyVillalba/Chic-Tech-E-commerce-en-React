@@ -13,7 +13,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex items-center bg-[#e5e7eb] dark:bg-[#05040a] text-zinc-900 dark:text-white transition-colors duration-500">
+    <section className="min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex items-center bg-[#fbe8efbd] dark:bg-[#05040a] text-zinc-900 dark:text-white transition-colors duration-500">
       <div className="max-w-6xl mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-8 items-center">
         <div>
           <p className="text-sm tracking-wide opacity-70 mb-2">
