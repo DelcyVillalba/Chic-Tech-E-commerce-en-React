@@ -70,7 +70,7 @@ export default function AdminProducts() {
             </button>
           )}
         </div>
-        <div className="overflow-x-auto border border-zinc-200 dark:border-[#2a2338] rounded-lg bg-white dark:bg-[#0f0b14]">
+        <div className="overflow-x-auto border border-zinc-300 dark:border-[#2a2338] rounded-2xl bg-[#e5e7eb] dark:bg-[#131121] shadow-sm">
           <table className="w-full text-xs sm:text-sm">
             <thead className="bg-gray-50 dark:bg-[#161225]">
               <tr>

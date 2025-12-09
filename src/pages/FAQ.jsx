@@ -1,3 +1,5 @@
+import BackButton from "../components/BackButton";
+
 export default function FAQ() {
   const faqs = [
     {
@@ -23,8 +25,9 @@ export default function FAQ() {
   ];
 
   return (
-    <main className="max-w-3xl mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-3">Preguntas frecuentes</h1>
+    <main className="max-w-3xl mx-auto p-4 space-y-3 sm:space-y-4">
+      <BackButton />
+      <h1 className="text-2xl font-semibold">Preguntas frecuentes</h1>
       <div className="space-y-3">
         {faqs.map((item, idx) => (
           <details key={idx} className="border rounded-2xl p-4">

@@ -114,7 +114,6 @@
         }
     }
 
-    /* animación pausada por defecto; al hover del contenedor .group se activa */
     .buzz {
         animation: buzz .5s linear infinite;
         animation-play-state: paused;

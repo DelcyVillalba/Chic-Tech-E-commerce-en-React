@@ -27,39 +27,91 @@ function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
 function Carousel({ items, renderItem, perPageConfig, dotsId }) {
   const perPage = usePerPage(perPageConfig);
   const [page, setPage] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const [bounce, setBounce] = useState(null);
   const totalPages = Math.max(1, Math.ceil(items.length / perPage));
+
   useEffect(() => setPage(0), [perPage, items.length]);
 
   const start = page * perPage;
   const visible = items.slice(start, start + perPage);
+  const minSwipeDistance = 35;
+
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      setTouchStartX(e.touches[0].clientX);
+      setTouchEndX(null);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      setTouchEndX(e.touches[0].clientX);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const delta = touchStartX - touchEndX;
+
+    if (delta > minSwipeDistance) {
+      if (page < totalPages - 1) {
+        setPage((p) => Math.min(totalPages - 1, p + 1));
+      } else {
+        setBounce("left");
+        setTimeout(() => setBounce(null), 160);
+      }
+    } else if (delta < -minSwipeDistance) {
+      if (page > 0) {
+        setPage((p) => Math.max(0, p - 1));
+      } else {
+        setBounce("right");
+        setTimeout(() => setBounce(null), 160);
+      }
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
 
   return (
-    <div className="relative">
-      <div className="flex items-center gap-3">
-        <button
-          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
-          onClick={() => setPage((p) => Math.max(0, p - 1))}
-          disabled={page <= 0}
-          aria-label="Anterior"
-        >
-          ←
-        </button>
-        <div className="flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {visible.map((item, idx) => (
-              <div key={idx}>{renderItem(item)}</div>
-            ))}
-          </div>
-        </div>
-        <button
-          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 disabled:opacity-40"
-          onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-          disabled={page >= totalPages - 1}
-          aria-label="Siguiente"
-        >
-          →
-        </button>
+    <div
+      className="relative"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-transform duration-150 ${
+          bounce === "left"
+            ? "-translate-x-2"
+            : bounce === "right"
+            ? "translate-x-2"
+            : "translate-x-0"
+        }`}
+      >
+        {visible.map((item, idx) => (
+          <div key={idx}>{renderItem(item)}</div>
+        ))}
       </div>
+
+      <button
+        className="hidden sm:grid place-items-center h-10 w-10 rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40 bg-[#f5f5f8]/95 dark:bg-[#05040a]/95 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2"
+        onClick={() => setPage((p) => Math.max(0, p - 1))}
+        disabled={page <= 0}
+        aria-label="Anterior"
+      >
+        ←
+      </button>
+      <button
+        className="hidden sm:grid place-items-center h-10 w-10 rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40 bg-[#f5f5f8]/95 dark:bg-[#05040a]/95 absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2"
+        onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+        disabled={page >= totalPages - 1}
+        aria-label="Siguiente"
+      >
+        →
+      </button>
       <div
         className="flex justify-center gap-2 mt-3"
         role="tablist"
@@ -102,19 +154,13 @@ export default function Mascotas() {
       return { accesoriosDestacados: [], mejorCalificados: [] };
     }
 
-    // Mezclamos todo el catálogo de mascotas una sola vez
     const shuffled = [...data].sort(() => Math.random() - 0.5);
 
-    // Accesorios destacados: primeros hasta 4 productos de la mezcla
     const accesoriosCount = Math.min(4, shuffled.length);
     const accesoriosDestacados = shuffled.slice(0, accesoriosCount);
 
-    // Productos mejor calificados: siguiente bloque de la misma mezcla,
-    // así evitamos repetir los mismos productos siempre que haya stock suficiente
     let remaining = shuffled.slice(accesoriosCount);
 
-    // Si hay muy pocos productos y no queda "remaining", rotamos la lista
-    // para que al menos el orden visual sea distinto
     if (remaining.length === 0) {
       remaining = [...shuffled.slice(1), shuffled[0]].filter(Boolean);
     }
@@ -128,7 +174,7 @@ export default function Mascotas() {
   if (error) return <ErrorState message={error} />;
 
   return (
-    <div className="bg-white dark:bg-[#0b0913] text-zinc-900 dark:text-zinc-100 transition-colors">
+    <div className="bg-[#e5e7eb] dark:bg-[#05040a] text-zinc-900 dark:text-zinc-100 transition-colors">
       {/* Hero */}
       <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
@@ -164,7 +210,7 @@ export default function Mascotas() {
       </section>
 
       {/* Botón Ver todos al inicio */}
-      <div className="bg-white dark:bg-[#0b0913] transition-colors">
+      <div className="bg-[#e5e7eb] dark:bg-transparent transition-colors">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-end">
           <button
             type="button"
@@ -260,7 +306,7 @@ export default function Mascotas() {
           <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
             Productos mejor calificados
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {mejorCalificados.map((p) => (
               <ProductCard key={p.id} p={p} />
             ))}
@@ -282,7 +328,7 @@ export default function Mascotas() {
       <SubscribeBanner />
 
       {/* Marcas Destacadas - Animado */}
-      <section className="bg-white dark:bg-[#0f0c19] py-12 border-y border-zinc-100 dark:border-[#1f1a2e] transition-colors">
+      <section className="py-12 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-xl font-light text-gray-900 dark:text-white mb-2">

@@ -19,7 +19,7 @@ export default function ProductCard({ p }) {
   const final = hasDiscount ? p.price * (1 - p.discount / 100) : p.price;
 
   return (
-    <article className="group relative bg-white dark:bg-[#131121] rounded-lg border border-zinc-200/70 dark:border-[#2a2338] hover:border-zinc-300 dark:hover:border-[#3c3352] transition-all overflow-hidden flex flex-col h-[400px] sm:h-[440px] shadow-sm hover:shadow-md dark:shadow-glow-dark">
+    <article className="group relative bg-white dark:bg-[#131121] rounded-lg border border-zinc-200/70 dark:border-[#2a2338] hover:border-zinc-300 dark:hover:border-[#3c3352] transition-colors overflow-hidden flex flex-col h-[380px] sm:h-[440px] shadow-sm hover:shadow-md dark:shadow-none">
       {(hasDiscount || p.isNew) && (
         <div className="absolute top-2 right-2 space-y-1 z-10 text-[10px] sm:text-[11px] font-semibold">
           {hasDiscount && (

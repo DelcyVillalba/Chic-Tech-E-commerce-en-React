@@ -35,12 +35,23 @@ export const getSalesData = async (startDate, endDate) => {
         const orders = await listOrders();
 
         // Filtrar por fecha si es necesario
-        const filteredOrders = orders.filter(order => {
-            const orderDate = new Date(order.createdAt);
+        let filteredOrders = orders;
+        if (startDate && endDate) {
             const start = new Date(startDate);
             const end = new Date(endDate);
-            return orderDate >= start && orderDate <= end;
-        });
+
+            filteredOrders = orders.filter(order => {
+                const orderDate = new Date(order.createdAt);
+                if (Number.isNaN(orderDate.getTime())) return false;
+                return orderDate >= start && orderDate <= end;
+            });
+
+            // Si no hay ventas en ese rango pero sí hay pedidos en general,
+            // usar todos los pedidos como fallback para que el gráfico no quede vacío.
+            if (!filteredOrders.length && orders.length) {
+                filteredOrders = orders;
+            }
+        }
 
         // Agrupar ventas por día
         const salesByDay = {};
@@ -126,7 +137,7 @@ export const getTopProducts = async () => {
                 };
             })
             .sort((a, b) => b.sales - a.sales)
-            .slice(0, 10); // Top 10
+            .slice(0, 10);
 
         return topProducts;
     } catch (error) {

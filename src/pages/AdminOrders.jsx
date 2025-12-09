@@ -55,190 +55,192 @@ export default function AdminOrders() {
       <div className="space-y-3 w-full text-zinc-900 dark:text-zinc-100 transition-colors">
         <h1 className="text-lg sm:text-xl font-semibold">Pedidos</h1>
 
-        {/* Tabla desktop */}
-        <div className="hidden lg:block overflow-x-auto">
-          <table className="w-full text-xs sm:text-sm border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14]">
-            <thead className="bg-gray-50 dark:bg-[#161225]">
-              <tr>
-                <th className="p-2 text-left">ID</th>
-                <th className="p-2">Cliente</th>
-                <th className="p-2">Items</th>
-                <th className="p-2">Total</th>
-                <th className="p-2">Estado</th>
-                <th className="p-2">Detalle</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.length === 0 && (
+        <section className="rounded-2xl border border-zinc-300 dark:border-[#2a2338] bg-[#e5e7eb] dark:bg-[#131121] p-4 sm:p-5 space-y-4 shadow-sm">
+          {/* Tabla desktop */}
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full text-xs sm:text-sm border border-zinc-300 dark:border-[#2a2338] bg-[#e5e7eb] dark:bg-[#131121] rounded-2xl overflow-hidden">
+              <thead className="bg-gray-50 dark:bg-[#161225]">
                 <tr>
-                  <td colSpan="5" className="p-4 text-center text-gray-500 dark:text-gray-300">
-                    No hay pedidos aún.
-                  </td>
+                  <th className="p-2 text-left">ID</th>
+                  <th className="p-2">Cliente</th>
+                  <th className="p-2">Items</th>
+                  <th className="p-2">Total</th>
+                  <th className="p-2">Estado</th>
+                  <th className="p-2">Detalle</th>
                 </tr>
-              )}
-              {paginatedRows.map((o) => (
-                <tr key={o.id} className="border-t border-zinc-200 dark:border-[#2a2338] align-top">
-                  <td className="p-2">{o.id}</td>
-                  <td className="p-2 text-left">
-                    <div className="font-semibold">{o.user?.name || "Cliente"}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-300">{o.user?.email}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-300">
-                      {new Date(o.createdAt).toLocaleString("es-ES")}
-                    </div>
-                  </td>
-                  <td className="p-2">
-                    <ul className="space-y-1">
-                      {o.items?.map((it) => (
-                        <li key={it.id} className="flex justify-between gap-2">
-                          <span className="line-clamp-1">{it.title}</span>
-                          <span className="text-xs text-gray-600 dark:text-gray-300">
-                            x{it.qty}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td className="p-2">
-                    ${Number(o.totals?.total || 0).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </td>
-                  <td className="p-2">
-                    <select
-                      className={`rounded px-2 py-1 text-sm capitalize bg-white dark:bg-[#0f0b14] ${badge[o.status] || "border"}`}
-                      value={o.status}
-                      onChange={async (e) => {
-                        await updateOrder(o.id, { status: e.target.value });
-                        load();
-                      }}
-                    >
-                      {estados.map((s) => (
-                        <option key={s} value={s}>
-                          {s}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td className="p-2">
-                    <button
-                      className="px-2 py-1 border border-zinc-300 dark:border-[#2a2338] rounded text-xs hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
-                      type="button"
-                      onClick={() => setSeleccionado(o)}
-                    >
-                      Ver
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Cards móvil */}
-        <div className="lg:hidden space-y-4">
-          {rows.length === 0 && (
-            <div className="border border-zinc-200 dark:border-[#2a2338] rounded-2xl p-4 bg-white dark:bg-[#0f0b14] text-center text-sm text-gray-600 dark:text-gray-300">
-              No hay pedidos aún.
-            </div>
-          )}
-          {paginatedRows.map((o) => (
-            <article
-              key={o.id}
-              className="border border-zinc-200 dark:border-[#2a2338] rounded-2xl bg-white dark:bg-[#0f0b14] p-4 space-y-3 shadow-sm"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase text-gray-500 dark:text-gray-300 tracking-wide">
-                    Pedido #{o.id}
-                  </p>
-                  <p className="text-sm font-semibold">{o.user?.name || "Cliente"}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-300">{o.user?.email}</p>
-                </div>
-                <select
-                  className={`text-xs rounded px-2 py-1 bg-white dark:bg-transparent ${badge[o.status] || "border"}`}
-                  value={o.status}
-                  onChange={async (e) => {
-                    await updateOrder(o.id, { status: e.target.value });
-                    load();
-                  }}
-                >
-                  {estados.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1">
-                <p>Creado: {new Date(o.createdAt).toLocaleString("es-ES")}</p>
-                <p>Entrega: {o.envio || "domicilio"}</p>
-              </div>
-
-              <div className="bg-gray-100 dark:bg-[#1b1628] border border-zinc-200 dark:border-[#2a2338] rounded-xl p-3 space-y-1">
-                {o.items?.map((it) => (
-                  <div key={it.id} className="flex justify-between text-sm">
-                    <span className="pr-2 line-clamp-1 text-gray-900 dark:text-gray-100">
-                      {it.title}
-                    </span>
-                    <span className="text-gray-700 dark:text-gray-300">x{it.qty}</span>
-                  </div>
+              </thead>
+              <tbody>
+                {rows.length === 0 && (
+                  <tr>
+                    <td colSpan="5" className="p-4 text-center text-gray-500 dark:text-gray-300">
+                      No hay pedidos aún.
+                    </td>
+                  </tr>
+                )}
+                {paginatedRows.map((o) => (
+                  <tr key={o.id} className="border-t border-zinc-200 dark:border-[#2a2338] align-top">
+                    <td className="p-2">{o.id}</td>
+                    <td className="p-2 text-left">
+                      <div className="font-semibold">{o.user?.name || "Cliente"}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-300">{o.user?.email}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-300">
+                        {new Date(o.createdAt).toLocaleString("es-ES")}
+                      </div>
+                    </td>
+                    <td className="p-2">
+                      <ul className="space-y-1">
+                        {o.items?.map((it) => (
+                          <li key={it.id} className="flex justify-between gap-2">
+                            <span className="line-clamp-1">{it.title}</span>
+                            <span className="text-xs text-gray-600 dark:text-gray-300">
+                              x{it.qty}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                    <td className="p-2">
+                      ${Number(o.totals?.total || 0).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </td>
+                    <td className="p-2">
+                      <select
+                        className={`rounded px-2 py-1 text-sm capitalize bg-[#f9fafb] dark:bg-[#131121] ${badge[o.status] || "border"}`}
+                        value={o.status}
+                        onChange={async (e) => {
+                          await updateOrder(o.id, { status: e.target.value });
+                          load();
+                        }}
+                      >
+                        {estados.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="p-2">
+                      <button
+                        className="px-2 py-1 border border-zinc-300 dark:border-[#2a2338] rounded text-xs hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
+                        type="button"
+                        onClick={() => setSeleccionado(o)}
+                      >
+                        Ver
+                      </button>
+                    </td>
+                  </tr>
                 ))}
-              </div>
-
-              <div className="flex items-center justify-between text-sm font-semibold">
-                <span>Total</span>
-                <span>
-                  ${Number(o.totals?.total || 0).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between gap-2 text-sm">
-                <button
-                  type="button"
-                  onClick={() => setSeleccionado(o)}
-                  className="flex-1 border border-zinc-300 dark:border-[#2a2338] rounded-lg py-2 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
-                >
-                  Ver detalles
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSeleccionado(o)}
-                  className="px-3 py-2 rounded-lg bg-black text-white dark:bg-[#c2185b] dark:hover:bg-[#d90f6c]"
-                >
-                  Abrir
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {/* Paginación */}
-        <div className="flex flex-col sm:flex-row items-center justify-between mt-3 text-sm gap-3">
-          <span>
-            Página {page} de {totalPages}
-          </span>
-          <div className="flex gap-2 w-full sm:w-auto">
-            <button
-              className="flex-1 sm:flex-none px-3 py-1 border border-zinc-300 dark:border-[#2a2338] rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
-              disabled={page <= 1}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-            >
-              ← Anterior
-            </button>
-            <button
-              className="flex-1 sm:flex-none px-3 py-1 border border-zinc-300 dark:border-[#2a2338] rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
-              disabled={page >= totalPages}
-              onClick={() => setPage((p) => Math.min(totalPages || 1, p + 1))}
-            >
-              Siguiente →
-            </button>
+              </tbody>
+            </table>
           </div>
-        </div>
+
+          {/* Cards móvil */}
+          <div className="lg:hidden space-y-4">
+            {rows.length === 0 && (
+              <div className="border border-zinc-200 dark:border-[#2a2338] rounded-2xl p-4 bg-[#e5e7eb] dark:bg-[#131121] text-center text-sm text-gray-600 dark:text-gray-300">
+                No hay pedidos aún.
+              </div>
+            )}
+            {paginatedRows.map((o) => (
+              <article
+                key={o.id}
+                className="border border-zinc-200 dark:border-[#2a2338] rounded-2xl bg-[#e5e7eb] dark:bg-[#131121] p-4 space-y-3 shadow-sm"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs uppercase text-gray-500 dark:text-gray-300 tracking-wide">
+                      Pedido #{o.id}
+                    </p>
+                    <p className="text-sm font-semibold">{o.user?.name || "Cliente"}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-300">{o.user?.email}</p>
+                  </div>
+                  <select
+                    className={`text-xs rounded px-2 py-1 bg-[#f9fafb] dark:bg-transparent ${badge[o.status] || "border"}`}
+                    value={o.status}
+                    onChange={async (e) => {
+                      await updateOrder(o.id, { status: e.target.value });
+                      load();
+                    }}
+                  >
+                    {estados.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                  <p>Creado: {new Date(o.createdAt).toLocaleString("es-ES")}</p>
+                  <p>Entrega: {o.envio || "domicilio"}</p>
+                </div>
+
+                <div className="bg-gray-100 dark:bg-[#131121] border border-zinc-200 dark:border-[#2a2338] rounded-xl p-3 space-y-1">
+                  {o.items?.map((it) => (
+                    <div key={it.id} className="flex justify-between text-sm">
+                      <span className="pr-2 line-clamp-1 text-gray-900 dark:text-gray-100">
+                        {it.title}
+                      </span>
+                      <span className="text-gray-700 dark:text-gray-300">x{it.qty}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between text-sm font-semibold">
+                  <span>Total</span>
+                  <span>
+                    ${Number(o.totals?.total || 0).toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between gap-2 text-sm">
+                  <button
+                    type="button"
+                    onClick={() => setSeleccionado(o)}
+                    className="flex-1 border border-zinc-300 dark:border-[#2a2338] rounded-lg py-2 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
+                  >
+                    Ver detalles
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSeleccionado(o)}
+                    className="px-3 py-2 rounded-lg bg-black text-white dark:bg-[#c2185b] dark:hover:bg-[#d90f6c]"
+                  >
+                    Abrir
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* Paginación */}
+          <div className="flex flex-col sm:flex-row items-center justify-between text-sm gap-3">
+            <span>
+              Página {page} de {totalPages}
+            </span>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button
+                className="flex-1 sm:flex-none px-3 py-1 border border-zinc-300 dark:border-[#2a2338] rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg_white/10 transition-colors"
+                disabled={page <= 1}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+              >
+                ← Anterior
+              </button>
+              <button
+                className="flex-1 sm:flex-none px-3 py-1 border border-zinc-300 dark:border-[#2a2338] rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg_white/10 transition-colors"
+                disabled={page >= totalPages}
+                onClick={() => setPage((p) => Math.min(totalPages || 1, p + 1))}
+              >
+                Siguiente →
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
 
       {/* Modal detalle */}
       {seleccionado && (
         <div className="fixed inset-0 z-50 bg-black/40 grid place-items-center px-4">
-          <div className="bg-white dark:bg-[#0f0b14] text-zinc-900 dark:text-zinc-100 rounded-2xl shadow-2xl w-full max-w-2xl p-5 space-y-3 border border-zinc-200 dark:border-[#2a2338]">
+          <div className="bg-[#e5e7eb] dark:bg-[#131121] text-zinc-900 dark:text-zinc-100 rounded-2xl shadow-2xl w-full max-w-2xl p-5 space-y-3 border border-zinc-200 dark:border-[#2a2338]">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h2 className="text-lg font-semibold">Pedido #{seleccionado.id}</h2>
@@ -287,7 +289,7 @@ export default function AdminOrders() {
                           <img
                             src={img}
                             alt={it.title}
-                            className="h-16 w-16 object-contain border border-zinc-200 dark:border-[#2a2338] rounded cursor-pointer bg-white dark:bg-[#0f0b14]"
+                            className="h-16 w-16 object-contain border border-zinc-200 dark:border-[#2a2338] rounded cursor-pointer bg-white dark:bg-[#131121]"
                             onClick={() => setZoomImg(img)}
                           />
                         ) : (
@@ -334,7 +336,7 @@ export default function AdminOrders() {
                 <img
                   src={zoomImg}
                   alt="Vista ampliada"
-                  className="max-h-[80vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl bg-white dark:bg-[#0f0b14]"
+                  className="max-h-[80vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl bg-white dark:bg-[#131121]"
                 />
               </div>
             )}

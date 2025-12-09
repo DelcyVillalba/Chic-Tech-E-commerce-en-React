@@ -71,7 +71,6 @@ export default function AdminSettings() {
   };
 
   const handleRefresh = () => {
-    // Recarga visual rápida de la página de configuración
     setSaved(false);
   };
 
@@ -90,7 +89,7 @@ export default function AdminSettings() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Contacto */}
-            <section className="bg-white dark:bg-[#0f0b14] rounded-2xl border border-zinc-200 dark:border-[#2a2338] p-5 shadow-sm space-y-4">
+            <section className="bg-[#e5e7eb] dark:bg-[#131121] rounded-2xl border border-zinc-300 dark:border-[#2a2338] p-5 space-y-4 shadow-sm">
               <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">
                 Datos de contacto
               </h2>
@@ -101,7 +100,7 @@ export default function AdminSettings() {
                   </label>
                   <input
                     type="tel"
-                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100"
+                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-[#e5e7eb] dark:bg-[#131121] text-gray-900 dark:text-gray-100"
                     placeholder="Ej: 5491123456789"
                     value={form.whatsappPhone}
                     onChange={(e) => handleChange("whatsappPhone", e.target.value)}
@@ -117,7 +116,7 @@ export default function AdminSettings() {
                   </label>
                   <input
                     type="email"
-                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100"
+                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-[#e5e7eb] dark:bg-[#131121] text-gray-900 dark:text-gray-100"
                     placeholder="Ej: contacto@chicytech.com"
                     value={form.supportEmail}
                     onChange={(e) => handleChange("supportEmail", e.target.value)}
@@ -133,7 +132,7 @@ export default function AdminSettings() {
                   </label>
                   <input
                     type="text"
-                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100"
+                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-[#e5e7eb] dark:bg-[#131121] text-gray-900 dark:text-gray-100"
                     value={form.footerText}
                     onChange={(e) => handleChange("footerText", e.target.value)}
                   />
@@ -145,7 +144,7 @@ export default function AdminSettings() {
             </section>
 
             {/* Catálogo */}
-            <section className="bg-white dark:bg-[#0f0b14] rounded-2xl border border-zinc-200 dark:border-[#2a2338] p-5 shadow-sm space-y-4">
+            <section className="bg-[#e5e7eb] dark:bg-[#131121] rounded-2xl border border-zinc-300 dark:border-[#2a2338] p-5 space-y-4 shadow-sm">
               <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">
                 Filtros por defecto del catálogo
               </h2>
@@ -158,7 +157,7 @@ export default function AdminSettings() {
                     Categoría inicial
                   </label>
                   <select
-                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100"
+                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 bg-[#e5e7eb] dark:bg-[#131121] text-gray-900 dark:text-gray-100"
                     value={form.catalogDefaults.category}
                     onChange={(e) =>
                       handleCatalogChange("category", e.target.value)
@@ -178,7 +177,7 @@ export default function AdminSettings() {
                     Orden inicial
                   </label>
                   <select
-                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100"
+                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 bg-[#e5e7eb] dark:bg-[#131121] text-gray-900 dark:text-gray-100"
                     value={form.catalogDefaults.sort}
                     onChange={(e) =>
                       handleCatalogChange("sort", e.target.value)
@@ -198,7 +197,7 @@ export default function AdminSettings() {
                   </label>
                   <input
                     type="number"
-                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100"
+                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-[#e5e7eb] dark:bg-[#131121] text-gray-900 dark:text-gray-100"
                     value={form.catalogDefaults.min}
                     onChange={(e) =>
                       handleCatalogChange(
@@ -215,7 +214,7 @@ export default function AdminSettings() {
                   </label>
                   <input
                     type="number"
-                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-gray-100"
+                    className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2 text-sm bg-[#e5e7eb] dark:bg-[#131121] text-gray-900 dark:text-gray-100"
                     value={form.catalogDefaults.max}
                     onChange={(e) =>
                       handleCatalogChange(
@@ -233,7 +232,7 @@ export default function AdminSettings() {
             <button
               type="button"
               onClick={handleReset}
-              className="px-4 py-2 rounded-lg border border-zinc-300 dark:border-[#2a2338] text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-[#0f0b14] hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
+              className="px-4 py-2 rounded-lg border border-zinc-300 dark:border-[#2a2338] text-sm text-gray-700 dark:text-gray-200 bg-[#e5e7eb] dark:bg-[#131121] hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
             >
               Restaurar valores por defecto
             </button>

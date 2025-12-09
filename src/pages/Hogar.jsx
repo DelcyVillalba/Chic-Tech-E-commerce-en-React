@@ -23,7 +23,7 @@ export default function Hogar() {
   if (error) return <ErrorState message={error} />;
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#e5e7eb] dark:bg-[#05040a] text-zinc-900 dark:text-zinc-100 transition-colors">
       {/* Hero */}
       <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
@@ -59,7 +59,7 @@ export default function Hogar() {
       </section>
 
       {/* Botón Ver todos al inicio */}
-      <div className="bg-white dark:bg-[#0b0913] transition-colors">
+      <div className="bg-[#e5e7eb] dark:bg-transparent transition-colors">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-end">
           <button
             type="button"
@@ -72,7 +72,7 @@ export default function Hogar() {
       </div>
 
       {/* Carrusel animado de categorías (derecha a izquierda) */}
-      <section className="relative overflow-hidden bg-white">
+      <section className="relative overflow-hidden bg-[#e5e7eb] dark:bg-[#05040a] transition-colors">
         <style>
           {`@keyframes scroll-hogar {
               0% { transform: translateX(0); }

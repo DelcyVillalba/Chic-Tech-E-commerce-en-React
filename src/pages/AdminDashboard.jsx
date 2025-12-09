@@ -145,7 +145,9 @@ export default function AdminDashboard() {
         {/* Header */}
         <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+              Dashboard
+            </h1>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Bienvenido de vuelta, aquí tienes un resumen rápido.
             </p>
@@ -154,19 +156,27 @@ export default function AdminDashboard() {
 
         {/* Stats Cards */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <article className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow">
-            <span className="text-xs sm:text-sm text-gray-500 font-medium">Productos</span>
-            <p className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">{stats.total}</p>
+          <article className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 shadow-sm">
+            <span className="text-xs sm:text-sm text-gray-500 font-medium">
+              Productos
+            </span>
+            <p className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">
+              {stats.total}
+            </p>
             <p className="text-xs text-gray-400 mt-2">Publicados</p>
           </article>
-          <article className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow">
-            <span className="text-xs sm:text-sm text-gray-500 font-medium">Precio promedio</span>
+          <article className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 shadow-sm">
+            <span className="text-xs sm:text-sm text-gray-500 font-medium">
+              Precio promedio
+            </span>
             <p className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">
               {formatARS.format(stats.avgPrice || 0)}
             </p>
           </article>
-          <article className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow">
-            <span className="text-xs sm:text-sm text-gray-500 font-medium">Categorías</span>
+          <article className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 shadow-sm">
+            <span className="text-xs sm:text-sm text-gray-500 font-medium">
+              Categorías
+            </span>
             <p className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">
               {Object.keys(stats.perCategory).length}
             </p>
@@ -175,10 +185,14 @@ export default function AdminDashboard() {
 
         {/* Chart & Calendar */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <article className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm lg:col-span-2">
+          <article className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 lg:col-span-2 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-              <h2 className="font-semibold text-gray-900">Ingresos semanales</h2>
-              <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-lg w-fit">$1250</span>
+              <h2 className="font-semibold text-gray-900">
+                Ingresos semanales
+              </h2>
+              <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-lg w-fit">
+                $1250
+              </span>
             </div>
             <div className="flex items-end gap-1.5 sm:gap-2 h-40 sm:h-48">
               {mockChart.map((v, i) => (
@@ -193,7 +207,7 @@ export default function AdminDashboard() {
             <p className="text-xs text-gray-500 mt-3">Vista mensual</p>
           </article>
 
-          <article className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
+          <article className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 shadow-sm">
             <div className="space-y-3 text-center">
               <h2 className="font-semibold text-gray-900">Calendario</h2>
               <div className="flex items-center justify-center gap-2 text-xs sm:text-sm">
@@ -231,19 +245,23 @@ export default function AdminDashboard() {
                 </span>
               ))}
               {daysOfMonth.map((d, idx) => {
-                if (!d) return <div key={`blank-${idx}`} className="h-7 sm:h-8"></div>;
+                if (!d)
+                  return (
+                    <div key={`blank-${idx}`} className="h-7 sm:h-8"></div>
+                  );
                 const isToday = isSameDay(d, new Date());
                 const isSelected = isSameDay(d, selectedDate);
                 return (
                   <button
                     key={d.toISOString()}
                     onClick={() => setSelectedDate(d)}
-                    className={`h-7 sm:h-8 grid place-items-center rounded-lg border text-xs transition-all ${isSelected
-                      ? "bg-[#c2185b] text-white border-[#c2185b] font-semibold"
-                      : isToday
+                    className={`h-7 sm:h-8 grid place-items-center rounded-lg border text-xs transition-all ${
+                      isSelected
+                        ? "bg-[#c2185b] text-white border-[#c2185b] font-semibold"
+                        : isToday
                         ? "bg-emerald-100 text-emerald-700 border-emerald-300"
                         : "border-transparent hover:border-zinc-300"
-                      }`}
+                    }`}
                   >
                     {d.getDate()}
                   </button>
@@ -262,9 +280,9 @@ export default function AdminDashboard() {
           </article>
         </section>
 
-        {/* Categories & Recent */}
+        {/* Categories & Reciente */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <article className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
+          <article className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h2 className="font-semibold text-gray-900">Por categoría</h2>
               <input
@@ -283,12 +301,16 @@ export default function AdminDashboard() {
               {catEntries.map(([cat, count]) => (
                 <li
                   key={cat}
-                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-lg border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#131121] px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-lg border border-zinc-200 dark:border-[#2a2338] bg-[#f9fafb] dark:bg-[#131121] px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">{cat}</span>
+                    <span className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">
+                      {cat}
+                    </span>
                     {count === 0 && (
-                      <span className="text-xs text-red-600 bg-red-50 dark:bg-red-900/30 dark:text-red-300 px-2 py-0.5 rounded whitespace-nowrap">Vacía</span>
+                      <span className="text-xs text-red-600 bg-red-50 dark:bg-red-900/30 dark:text-red-300 px-2 py-0.5 rounded whitespace-nowrap">
+                        Vacía
+                      </span>
                     )}
                   </div>
                   <div className="flex items-center gap-2 text-xs flex-wrap">
@@ -304,14 +326,16 @@ export default function AdminDashboard() {
                     >
                       Agregar
                     </Link>
-                    <span className="font-semibold text-sm bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-gray-100 px-2 py-1 rounded whitespace-nowrap">{count}</span>
+                    <span className="font-semibold text-sm bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-gray-100 px-2 py-1 rounded whitespace-nowrap">
+                      {count}
+                    </span>
                   </div>
                 </li>
               ))}
             </ul>
           </article>
 
-          <article className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
+          <article className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h2 className="font-semibold text-gray-900">Últimos cargados</h2>
               <input
@@ -322,19 +346,23 @@ export default function AdminDashboard() {
               />
             </div>
             {recentFiltered.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-8">No hay productos aún.</p>
+              <p className="text-sm text-gray-500 text-center py-8">
+                No hay productos aún.
+              </p>
             ) : (
               <ul className="space-y-2 max-h-64 overflow-y-auto">
                 {recentFiltered.map((item) => (
                   <li
                     key={item.id}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-lg border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#131121] px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-lg border border-zinc-200 dark:border-[#2a2338] bg-[#f9fafb] dark:bg-[#131121] px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                   >
                     <div className="flex-1 min-w-0">
                       <p className="font-medium line-clamp-1 text-sm text-gray-900 dark:text-gray-100">
                         {item.name || item.title || "Sin título"}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-300">{item.category}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-300">
+                        {item.category}
+                      </p>
                     </div>
                     <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-white/10 px-2 py-1 rounded whitespace-nowrap">
                       {formatARS.format(Number(item.price || 0))}
@@ -347,9 +375,11 @@ export default function AdminDashboard() {
         </section>
 
         {/* API Tester */}
-        <section className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm space-y-4">
+        <section className="rounded-2xl border border-zinc-300 bg-[#e5e7eb] dark:bg-[#131121] p-5 sm:p-6 space-y-4 shadow-sm">
           <div>
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Tester rápido de API</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+              Tester rápido de API
+            </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Experimenta con los endpoints en {baseUrl}
             </p>

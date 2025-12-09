@@ -31,6 +31,9 @@ function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
 function Carousel({ items, renderItem, perPageConfig, dotsId }) {
   const perPage = usePerPage(perPageConfig);
   const [page, setPage] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const [bounce, setBounce] = useState(null);
 
   const totalPages = Math.max(1, Math.ceil(items.length / perPage));
   useEffect(() => {
@@ -39,34 +42,82 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 
   const start = page * perPage;
   const visible = items.slice(start, start + perPage);
+  const minSwipeDistance = 35;
+
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      setTouchStartX(e.touches[0].clientX);
+      setTouchEndX(null);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      setTouchEndX(e.touches[0].clientX);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const delta = touchStartX - touchEndX;
+
+    if (delta > minSwipeDistance) {
+      if (page < totalPages - 1) {
+        setPage((p) => Math.min(totalPages - 1, p + 1));
+      } else {
+        setBounce("left");
+        setTimeout(() => setBounce(null), 160);
+      }
+    } else if (delta < -minSwipeDistance) {
+      if (page > 0) {
+        setPage((p) => Math.max(0, p - 1));
+      } else {
+        setBounce("right");
+        setTimeout(() => setBounce(null), 160);
+      }
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
 
   return (
-    <div className="relative">
-      <div className="flex items-center gap-3">
-        <button
-          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
-          onClick={() => setPage((p) => Math.max(0, p - 1))}
-          disabled={page <= 0}
-          aria-label="Anterior"
-        >
-          ←
-        </button>
-        <div className="flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {visible.map((item, idx) => (
-              <div key={idx}>{renderItem(item)}</div>
-            ))}
-          </div>
-        </div>
-        <button
-          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
-          onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-          disabled={page >= totalPages - 1}
-          aria-label="Siguiente"
-        >
-          →
-        </button>
+    <div
+      className="relative"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-transform duration-150 ${
+          bounce === "left"
+            ? "-translate-x-2"
+            : bounce === "right"
+            ? "translate-x-2"
+            : "translate-x-0"
+        }`}
+      >
+        {visible.map((item, idx) => (
+          <div key={idx}>{renderItem(item)}</div>
+        ))}
       </div>
+
+      <button
+        className="hidden sm:grid place-items-center h-10 w-10 rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40 bg-[#f5f5f8]/95 dark:bg-[#05040a]/95 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2"
+        onClick={() => setPage((p) => Math.max(0, p - 1))}
+        disabled={page <= 0}
+        aria-label="Anterior"
+      >
+        ←
+      </button>
+      <button
+        className="hidden sm:grid place-items-center h-10 w-10 rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40 bg-[#f5f5f8]/95 dark:bg-[#05040a]/95 absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2"
+        onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+        disabled={page >= totalPages - 1}
+        aria-label="Siguiente"
+      >
+        →
+      </button>
       <div
         className="flex justify-center gap-2 mt-3"
         role="tablist"
@@ -106,18 +157,18 @@ export default function Libros() {
 
     const shuffled = [...data].sort(() => Math.random() - 0.5);
 
-    // Recién llegados: priorizar los más nuevos por id
+    // Recién llegados
     const byNewest = [...data].sort((a, b) => b.id - a.id);
     const recienLlegados = byNewest;
 
-    // Más vendidos: simulamos con rating.count más alto, evitando repetir los de recién
+    // Más vendidos simulamos
     let masVendidosSource = [...data]
       .sort((a, b) => (b?.rating?.count || 0) - (a?.rating?.count || 0))
       .filter((p) => !recienLlegados.some((r) => r.id === p.id));
     if (masVendidosSource.length === 0) masVendidosSource = shuffled;
     const masVendidos = masVendidosSource;
 
-    // En oferta: productos con descuento, evitando repetir anteriores
+    // En oferta
     let ofertaBase = data.filter((p) => Number(p.discount) > 0);
     if (ofertaBase.length === 0) ofertaBase = shuffled;
     let enOfertaSource = ofertaBase.filter(
@@ -137,7 +188,7 @@ export default function Libros() {
   if (error) return <ErrorState message={error} />;
 
   return (
-    <div className="bg-white dark:bg-[#0b0913] dark:text-gray-100 transition-colors">
+    <div className="bg-[#e5e7eb] dark:bg-[#05040a] dark:text-gray-100 transition-colors">
       {/* Hero */}
       <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <div className="absolute inset-0">
@@ -174,7 +225,7 @@ export default function Libros() {
       </section>
 
       {/* Botón Ver todos al inicio */}
-      <div className="bg-white dark:bg-[#0b0913] transition-colors">
+      <div className="bg-[#e5e7eb] dark:bg-transparent transition-colors">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-end">
           <button
             type="button"
@@ -193,7 +244,7 @@ export default function Libros() {
       {data.length > 0 && (
         <section
           ref={destacadoRef}
-          className="bg-white dark:bg-[#0f0c19] transition-colors"
+          className="bg-[#e5e7eb] dark:bg-[#05040a] transition-colors"
         >
           <div className="max-w-6xl mx-auto px-4 py-12 text-zinc-900 dark:text-zinc-100">
             <div className="text-center space-y-2 mb-6">
@@ -266,29 +317,31 @@ export default function Libros() {
       )}
 
       {/* Banner compra y ahorra */}
-      <section
-        className="max-w-6xl mx-auto my-10 rounded-2xl overflow-hidden relative"
-        style={{
-          backgroundImage: "url(/libros/bg-5.webp)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/25" />
-        <div className="relative px-6 py-10 text-center md:text-left space-y-3">
-          <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Compra y ahorra dinero
-          </h3>
-          <p className="text-gray-700 dark:text-gray-200 max-w-2xl">
-            Packs de cuadernos, agendas y sets creativos para acompañar tus
-            lecturas.
-          </p>
-          <button
-            className="inline-flex items-center justify-center px-5 py-2 rounded-xl bg-[#c2185b] text-white font-semibold hover:bg-black transition"
-            onClick={() => scrollTo(nuevosRef)}
-          >
-            Comprar ahora
-          </button>
+      <section className="max-w-6xl mx-auto px-4 my-10">
+        <div
+          className="rounded-2xl overflow-hidden relative"
+          style={{
+            backgroundImage: "url(/libros/bg-5.webp)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/25" />
+          <div className="relative px-6 py-10 text-center md:text-left space-y-3">
+            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+              Compra y ahorra dinero
+            </h3>
+            <p className="text-gray-700 dark:text-gray-200 max-w-2xl">
+              Packs de cuadernos, agendas y sets creativos para acompañar tus
+              lecturas.
+            </p>
+            <button
+              className="inline-flex items-center justify-center px-5 py-2 rounded-xl bg-[#c2185b] text-white font-semibold hover:bg-black transition"
+              onClick={() => scrollTo(nuevosRef)}
+            >
+              Comprar ahora
+            </button>
+          </div>
         </div>
       </section>
 

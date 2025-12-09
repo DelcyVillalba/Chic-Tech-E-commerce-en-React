@@ -27,7 +27,7 @@ export default function AdminShell({ title, children, onRefresh }) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-[#0b0913] dark:to-[#0f0c19] flex flex-col lg:flex-row min-h-[calc(100vh-4rem)] sm:min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-5rem)] overflow-x-auto lg:overflow-visible text-zinc-900 dark:text-zinc-100 transition-colors">
+    <div className="bg-[#d1d5db] dark:bg-[#05040a] flex flex-col lg:flex-row min-h-[calc(100vh-4rem)] sm:min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-5rem)] overflow-x-auto lg:overflow-visible text-zinc-900 dark:text-zinc-100 transition-colors">
       {/* Overlay para móvil */}
       {open && (
         <div
@@ -39,12 +39,12 @@ export default function AdminShell({ title, children, onRefresh }) {
       {/* Sidebar */}
       <aside
         className={`${open ? "w-full sm:w-64" : "w-20"
-          } bg-white dark:bg-[#0f0b14] border-r border-zinc-200 dark:border-[#1f1a2e] shadow-lg dark:shadow-[0_20px_60px_rgba(0,0,0,0.4)] transition-all duration-300 ${open ? "fixed lg:sticky z-20 translate-x-0" : "fixed -translate-x-full lg:sticky lg:translate-x-0"
+          } bg-[#e5e7eb] dark:bg-[#0f0b14] border-r border-zinc-200 dark:border-[#1f1a2e] shadow-lg dark:shadow-[0_20px_60px_rgba(0,0,0,0.4)] transition-all duration-300 ${open ? "fixed lg:sticky z-20 translate-x-0" : "fixed -translate-x-full lg:sticky lg:translate-x-0"
           } top-16 h-[calc(100vh-4rem)] sm:top-20 sm:h-[calc(100vh-5rem)] lg:top-0 lg:h-screen flex-col flex overflow-y-auto ${!open ? "items-center" : ""}`}
         aria-label="Menú de administración"
       >
         {/* Header del Sidebar */}
-        <div className={`p-3 sm:p-4 flex items-center border-b border-zinc-200 dark:border-[#1f1a2e] sticky top-0 bg-white dark:bg-[#0f0b14] w-full ${open ? "justify-between" : "justify-center"}`}>
+        <div className={`p-3 sm:p-4 flex items-center border-b border-zinc-200 dark:border-[#1f1a2e] sticky top-0 bg-[#e5e7eb] dark:bg-[#0f0b14] w-full ${open ? "justify-between" : "justify-center"}`}>
           {open && (
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-gradient-to-br from-sky-400 to-[#c2185b] grid place-items-center text-base sm:text-lg font-bold text-white flex-shrink-0">
@@ -74,7 +74,6 @@ export default function AdminShell({ title, children, onRefresh }) {
               to={l.to}
               end={l.end}
               onClick={() => {
-                // Cerrar menú en móvil después de navegar
                 if (window.innerWidth < 1024) {
                   setOpen(false);
                 }
@@ -92,24 +91,12 @@ export default function AdminShell({ title, children, onRefresh }) {
             </NavLink>
           ))}
         </nav>
-
-        {/* Footer del Sidebar */}
-        {/* <div className="p-3 sm:p-4 border-t border-zinc-200 dark:border-[#1f1a2e] bg-gray-50 dark:bg-[#0f0b14] flex items-center justify-center w-full">
-          {open && (
-            <p className="text-xs text-gray-500 dark:text-gray-300 text-center">
-              v1.0.0
-            </p>
-          )}
-          {!open && (
-            <span className="text-xs text-gray-400 font-semibold">v1</span>
-          )}
-        </div> */}
       </aside>
 
       {/* Content */}
       <div className="flex-1 flex flex-col">
         {/* Header - Móvil y Desktop */}
-        <header className="sticky top-0 z-10 bg-white dark:bg-[#0f0b14]/95 border-b border-zinc-200 dark:border-[#1f1a2e] shadow-sm flex-shrink-0 backdrop-blur">
+        <header className="sticky top-0 z-10 bg-[#e5e7eb]/95 dark:bg-[#0f0b14]/95 border-b border-zinc-200 dark:border-[#1f1a2e] shadow-sm flex-shrink-0 backdrop-blur">
           <div className="px-3 sm:px-6 py-0.5 sm:py-2 flex items-center justify-between">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {!open && (
@@ -141,7 +128,7 @@ export default function AdminShell({ title, children, onRefresh }) {
           className="flex-1 px-3 sm:px-6 lg:px-8 py-0 overflow-y-auto relative h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] lg:h-[calc(100vh-5rem)]"
           onScroll={handleScroll}
         >
-          <div className="max-w-7xl mx-auto w-full pt-3 sm:pt-4">
+          <div className="max-w-7xl mx-auto w-full pt-3 sm:pt-4 pb-10 sm:pb-14">
             {children}
           </div>
 

@@ -96,7 +96,7 @@ export default function Navbar() {
   }, [user, isAdminRoute, loc.pathname, lastSeen]);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0f0b14]/90 backdrop-blur-md border-b border-zinc-200/50 dark:border-[#1f1a2e] shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] transition-colors duration-300">
+    <header className="sticky top-0 z-40 bg-[#e5e7eb]/95 dark:bg-[#05040a]/90 backdrop-blur-md border-b border-zinc-200/50 dark:border-[#1f1a2e] shadow-sm dark:shadow-[0_6px_24px_rgba(0,0,0,0.4)] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
@@ -267,7 +267,7 @@ export default function Navbar() {
                   </NavLink>
                 )}
 
-                {/* Admin Button */}
+                {/* Admin Boton */}
                 {!user && (
                   <button
                     onClick={() => setAdminOpen(true)}
@@ -305,7 +305,7 @@ export default function Navbar() {
                 )}
               </nav>
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Boton */}
               <div className="md:hidden flex items-center gap-2">
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

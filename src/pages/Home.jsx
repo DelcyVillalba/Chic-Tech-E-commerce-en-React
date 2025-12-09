@@ -14,8 +14,6 @@ export default function Home() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // En Home solo usamos paginación simple sobre todo el catálogo,
-  // sin sincronizar con la barra de búsqueda global.
   const [filters, setFilters] = useState({
     page: 1,
     perPage: 8,
@@ -53,7 +51,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <div className="bg-white dark:bg-[#0b0913] transition-colors">
+      <div className="bg-[#e5e7eb] dark:bg-transparent transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-end">
           <button
             type="button"
@@ -71,7 +69,7 @@ export default function Home() {
       <DailyDeals />
 
       {/* Marcas Destacadas - Animado */}
-      <section className="bg-white dark:bg-[#0f0c19] py-12 border-y border-zinc-100 dark:border-[#1f1a2e] transition-colors">
+      <section className="py-12 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-xl font-light text-gray-900 dark:text-white mb-2">
@@ -303,7 +301,7 @@ export default function Home() {
           {!loading && !error && (
             <>
               {hasProducts ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {data.map((p) => (
                     <ProductCard key={p.id} p={p} />
                   ))}

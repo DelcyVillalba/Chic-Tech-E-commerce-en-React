@@ -5,7 +5,6 @@ export const getProducts = async () => {
   return res.data;
 };
 
-// Mantener compatibilidad con componentes que consumen listProducts
 export const listProducts = getProducts;
 
 export const getProductById = async (id) => {
@@ -13,7 +12,6 @@ export const getProductById = async (id) => {
   return res.data;
 };
 
-// Alias para compatibilidad con hooks/componentes existentes
 export const getProduct = getProductById;
 
 export const createProduct = async (data) => {
@@ -35,7 +33,6 @@ export const listCategories = async () => {
   const res = await api.get("/products");
   const products = res.data;
 
-  // Extraer categorías únicas sin null/undefined
   const categories = [
     ...new Set(products.map((p) => p.category).filter(Boolean)),
   ];

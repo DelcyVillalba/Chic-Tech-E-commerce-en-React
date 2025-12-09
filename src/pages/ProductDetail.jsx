@@ -7,6 +7,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { translate } from "../i18n/es";
 import { formatARS } from "../utils/format";
 import { useState } from "react";
+import BackButton from "../components/BackButton";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -32,16 +33,18 @@ export default function ProductDetail() {
   };
 
   return (
-    <main className="max-w-5xl mx-auto p-4 grid md:grid-cols-2 gap-6">
-      <img src={p.image} alt={p.title} className="w-full h-80 object-contain" />
-      <section>
+    <main className="max-w-5xl mx-auto p-4 space-y-4">
+      <BackButton />
+      <section className="grid md:grid-cols-2 gap-6">
+        <img src={p.image} alt={p.title} className="w-full h-80 object-contain" />
+        <div>
         <h1 className="text-2xl font-semibold mb-2">{p.title}</h1>
         <div className="text-sm opacity-70 mb-2">
           Categoría: {p.categoryEs ?? p.category}
         </div>
         <p className="opacity-80 mb-3">{p.description}</p>
 
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <span className="text-2xl font-bold">
             {formatARS.format(finalPrice)}
             {hasDiscount && (
@@ -50,16 +53,16 @@ export default function ProductDetail() {
               </span>
             )}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
             <button
               onClick={addToCart}
-              className="rounded-lg px-4 py-2 bg-[#c2185b] text-white font-semibold hover:bg-[#a3154a] transition-colors"
+              className="rounded-lg px-3 sm:px-4 py-2 bg-[#c2185b] text-white font-semibold hover:bg-[#a3154a] transition-colors"
             >
               Añadir al carrito 🛒
             </button>
             <button
               onClick={() => toggle(p)}
-              className="rounded-lg px-4 py-2 border border-[#c2185b] text-[#c2185b] font-semibold hover:bg-[#c2185b] hover:text-white transition-colors text-sm"
+              className="rounded-lg px-3 sm:px-4 py-2 border border-[#c2185b] text-[#c2185b] font-semibold hover:bg-[#c2185b] hover:text-white transition-colors text-xs sm:text-sm"
               title="Añadir a la lista de deseos"
             >
               {isSaved(p.id) ? "♥️ En deseos" : "🤍 Añadir a deseos"}
@@ -81,7 +84,6 @@ export default function ProductDetail() {
               </Link>
               <button
                 onClick={() => {
-                  // volver a la página anterior si existe, si no ir al home
                   if (window.history.length > 1) nav(-1);
                   else nav("/", { state: { restoreCatalog: true } });
                 }}
@@ -92,6 +94,7 @@ export default function ProductDetail() {
             </div>
           </div>
         )}
+        </div>
       </section>
     </main>
   );

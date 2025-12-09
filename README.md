@@ -13,15 +13,15 @@ Incluye catálogo, filtros, detalle, carrito persistente, login simulado y panel
 
 ## ✨ Características principales
 
-- Catálogo con búsqueda, filtros, orden y paginación  
-- Detalle de producto + acción **“Agregar al carrito”**  
-- Carrito con subtotal, impuestos (21 %) y total  
-- Persistencia en **localStorage**  
-- Login simulado + rutas protegidas  
-- CRUD de productos en el módulo Admin  
-- UI responsive con Tailwind  
+- Catálogo por categorías (10 secciones) con búsqueda global, filtros, orden y paginación  
+- Detalle de producto + acciones **“Agregar al carrito”** y **“Añadir a favoritos”**  
+- Carrito con subtotal, IVA (21 %) y total, más flujo de checkout con pago simulado  
+- Estado de carrito y sesión de usuario persistidos en **localStorage**  
+- Registro y login reales contra la API (roles **Cliente** / **Admin**) + rutas protegidas  
+- Panel Admin con CRUD de productos, gestión de usuarios, pedidos y reportes con gráficos  
+- UI totalmente responsive con Tailwind y carruseles optimizados para mobile  
   
-- Integración con backend real:
+- Integración con backend real (Node + Express + PostgreSQL):
 ```
 https://chic-tech-api-production.up.railway.app
 ```
@@ -53,6 +53,17 @@ npm run dev
 npm run build
 npm run preview
 ```
+
+### 👥 Usuarios demo para probar el flujo
+
+La app ya viene preparada con usuarios de prueba conectados al backend:
+
+| Rol    | Email             | Contraseña |
+|--------|-------------------|-----------|
+| Admin  | `admin@demo.com`  | `123456`  |
+| Cliente| `cliente@demo.com`| `123456`  |
+
+En el login, si ingresás como **Admin** tendrás acceso al panel interno; como **Cliente** podrás simular compras completas.
 
 ## 🌐 Variables de entorno
 Crear ```.env``` en la raíz:
@@ -148,4 +159,3 @@ VITE_API_URL=https://chic-tech-api-production.up.railway.app
 **Delcy Villalba** 
 E-commerce moderno con React, Vite y Tailwind.
 Proyecto TalentoTech · 2025 💛✨
-

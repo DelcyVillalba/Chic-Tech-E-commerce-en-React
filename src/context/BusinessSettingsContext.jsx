@@ -37,7 +37,6 @@ export function BusinessSettingsProvider({ children }) {
         },
       });
     } catch {
-      // Ignorar errores de parseo y usar defaults
     }
   }, []);
 

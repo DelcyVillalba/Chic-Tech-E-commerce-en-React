@@ -23,20 +23,24 @@ export default function SupportStrip() {
   ];
 
   return (
-    <section className="bg-white dark:bg-[#0f0c19] transition-colors">
+    <section className="bg-[#e5e7eb] dark:bg-[#05040a] transition-colors">
       <div className="max-w-6xl mx-auto px-4 py-10 grid gap-8 sm:grid-cols-2 md:grid-cols-4">
         {items.map((it, i) => (
-          <div key={i} className="group flex items-start gap-3 perspective-900">
-            <div className="lift3d rounded-full bg-white dark:bg-[#161225] ring-1 ring-black/5 dark:ring-white/10 p-0.5">
+          <div
+            key={i}
+            className="group flex items-start gap-3 perspective-900"
+          >
+            <div className="lift3d rounded-full bg-white/95 dark:bg-[#0a0911] ring-1 ring-black/5 dark:ring-white/10 p-0.5">
               <img src={it.img} alt={it.title} className="w-12 h-12 buzz" />
-            </div>{" "}
+            </div>
             <div>
-              {" "}
-              <h3 className="font-semibold text-[#c2185b] leading-snug">
+              <h3 className="font-semibold text-[#c2185b] dark:text-[#f3b0cf] leading-snug">
                 {it.title}
               </h3>
-              <p className="text-sm opacity-70 dark:text-zinc-200">{it.desc}</p>{" "}
-            </div>{" "}
+              <p className="text-sm text-gray-700 dark:text-zinc-300">
+                {it.desc}
+              </p>
+            </div>
           </div>
         ))}
       </div>

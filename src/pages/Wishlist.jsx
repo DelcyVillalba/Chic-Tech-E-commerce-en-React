@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
 import ProductCard from "../components/ProductCard";
+import BackButton from "../components/BackButton";
 
 export default function Wishlist() {
   const { wishlist, clear } = useWishlist();
 
   return (
     <main className="max-w-6xl mx-auto p-4 space-y-4 text-zinc-900 dark:text-zinc-100 transition-colors">
+      <BackButton />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Mis favoritos</h1>

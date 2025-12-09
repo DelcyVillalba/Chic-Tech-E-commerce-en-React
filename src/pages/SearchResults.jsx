@@ -5,6 +5,7 @@ import ErrorState from "../components/ErrorState";
 import ProductCard from "../components/ProductCard";
 import Pagination from "../components/Pagination";
 import useProducts from "../hooks/useProducts";
+import BackButton from "../components/BackButton";
 
 export default function SearchResults() {
   const [params, setParams] = useSearchParams();
@@ -54,6 +55,7 @@ export default function SearchResults() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <BackButton className="mb-3 sm:mb-4" />
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4 sm:mb-6">
         <h1 className="text-2xl sm:text-3xl font-semibold">
           Resultados de búsqueda
@@ -71,7 +73,7 @@ export default function SearchResults() {
 
       <section className="min-h-24">
         {hasProducts ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {data.map((p) => (
               <ProductCard key={p.id} p={p} />
             ))}
@@ -107,4 +109,3 @@ export default function SearchResults() {
     </main>
   );
 }
-

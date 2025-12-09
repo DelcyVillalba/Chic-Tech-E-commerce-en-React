@@ -70,7 +70,7 @@ export default function GlobalFilterBar() {
   return (
     <section
       id="global-filter-bar"
-      className={`sticky top-16 sm:top-20 z-20 bg-white/95 dark:bg-[#0f0b14]/95 backdrop-blur border-b border-zinc-200 dark:border-[#1f1a2e] overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${visible
+      className={`sticky top-16 sm:top-20 z-20 bg-[#e5e7eb]/95 dark:bg-[#05040a]/95 backdrop-blur border-b border-zinc-200/70 dark:border-[#1f1a2e] shadow-sm overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${visible
           ? "max-h-[260px] opacity-100 pointer-events-auto"
           : "max-h-0 opacity-0 pointer-events-none"
         }`}
@@ -97,7 +97,7 @@ export default function GlobalFilterBar() {
             onChange={(e) => update({ q: e.target.value })}
             onKeyDown={(e) => e.key === "Enter" && applyFilters()}
             placeholder="Buscar productos…"
-            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg pl-10 pr-3 py-2.5 w-full text-sm focus:ring-2 focus:ring-[#f5f5f0] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-white dark:bg-[#161225] dark:text-white"
+            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg pl-10 pr-3 py-2.5 w-full text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#161225] dark:text-white"
           />
         </div>
 
@@ -105,7 +105,7 @@ export default function GlobalFilterBar() {
           <select
             value={filters.category}
             onChange={(e) => update({ category: e.target.value })}
-            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 min-w-[160px] text-sm focus:ring-2 focus:ring-[#f5f5f0] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-white dark:bg-[#161225] dark:text-white"
+            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 min-w-[160px] text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#161225] dark:text-white"
           >
             <option value="">Todas las categorías</option>
             {cats.map((c) => (
@@ -118,7 +118,7 @@ export default function GlobalFilterBar() {
           <select
             value={filters.sort}
             onChange={(e) => update({ sort: e.target.value })}
-            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 min-w-[140px] text-sm focus:ring-2 focus:ring-[#f5f5f0] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-white dark:bg-[#161225] dark:text-white"
+            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 min-w-[140px] text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#161225] dark:text-white"
           >
             <option value="">Ordenar</option>
             <option value="price-asc">Precio ↑</option>
@@ -129,7 +129,7 @@ export default function GlobalFilterBar() {
 
           <input
             type="number"
-            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 w-24 text-sm focus:ring-2 focus:ring-[#f5f5f0] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-white dark:bg-[#161225] dark:text-white"
+            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 w-24 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#161225] dark:text-white"
             placeholder="Mín"
             value={filters.min}
             onChange={(e) => update({ min: e.target.value === "" ? "" : Number(e.target.value) })}
@@ -137,7 +137,7 @@ export default function GlobalFilterBar() {
           />
           <input
             type="number"
-            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 w-24 text-sm focus:ring-2 focus:ring-[#f5f5f0] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-white dark:bg-[#161225] dark:text-white"
+            className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-3 py-2.5 w-24 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#161225] dark:text-white"
             placeholder="Máx"
             value={filters.max}
             onChange={(e) => update({ max: e.target.value === "" ? "" : Number(e.target.value) })}

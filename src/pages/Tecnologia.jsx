@@ -7,7 +7,7 @@ import QuickViewModal from "../components/QuickViewModal";
 import CategoryCatalog from "../components/CategoryCatalog";
 import SubscribeBanner from "../components/SubscribeBanner";
 
-// Carrusel reutilizable (similar al de Mujer/Home)
+
 function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
   const calc = () => {
     if (typeof window === "undefined") return config.desktop;
@@ -30,6 +30,9 @@ function usePerPage(config = { mobile: 1, tablet: 2, desktop: 4 }) {
 function Carousel({ items, renderItem, perPageConfig, dotsId }) {
   const perPage = usePerPage(perPageConfig);
   const [page, setPage] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const [bounce, setBounce] = useState(null);
 
   const totalPages = Math.max(1, Math.ceil(items.length / perPage));
   useEffect(() => {
@@ -38,34 +41,82 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 
   const start = page * perPage;
   const visible = items.slice(start, start + perPage);
+  const minSwipeDistance = 35;
+
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      setTouchStartX(e.touches[0].clientX);
+      setTouchEndX(null);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      setTouchEndX(e.touches[0].clientX);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const delta = touchStartX - touchEndX;
+
+    if (delta > minSwipeDistance) {
+      if (page < totalPages - 1) {
+        setPage((p) => Math.min(totalPages - 1, p + 1));
+      } else {
+        setBounce("left");
+        setTimeout(() => setBounce(null), 160);
+      }
+    } else if (delta < -minSwipeDistance) {
+      if (page > 0) {
+        setPage((p) => Math.max(0, p - 1));
+      } else {
+        setBounce("right");
+        setTimeout(() => setBounce(null), 160);
+      }
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
 
   return (
-    <div className="relative">
-      <div className="flex items-center gap-3">
-        <button
-          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
-          onClick={() => setPage((p) => Math.max(0, p - 1))}
-          disabled={page <= 0}
-          aria-label="Anterior"
-        >
-          ←
-        </button>
-        <div className="flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {visible.map((item, idx) => (
-              <div key={idx}>{renderItem(item)}</div>
-            ))}
-          </div>
-        </div>
-        <button
-          className="h-10 w-10 grid place-items-center rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40"
-          onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-          disabled={page >= totalPages - 1}
-          aria-label="Siguiente"
-        >
-          →
-        </button>
+    <div
+      className="relative"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-transform duration-150 ${
+          bounce === "left"
+            ? "-translate-x-2"
+            : bounce === "right"
+            ? "translate-x-2"
+            : "translate-x-0"
+        }`}
+      >
+        {visible.map((item, idx) => (
+          <div key={idx}>{renderItem(item)}</div>
+        ))}
       </div>
+
+      <button
+        className="hidden sm:grid place-items-center h-10 w-10 rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40 bg-[#f5f5f8]/95 dark:bg-[#05040a]/95 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2"
+        onClick={() => setPage((p) => Math.max(0, p - 1))}
+        disabled={page <= 0}
+        aria-label="Anterior"
+      >
+        ←
+      </button>
+      <button
+        className="hidden sm:grid place-items-center h-10 w-10 rounded-full border text-gray-600 dark:text-gray-300 dark:border-[#2a2338] disabled:opacity-40 bg-[#f5f5f8]/95 dark:bg-[#05040a]/95 absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2"
+        onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+        disabled={page >= totalPages - 1}
+        aria-label="Siguiente"
+      >
+        →
+      </button>
       <div
         className="flex justify-center gap-2 mt-3"
         role="tablist"
@@ -91,7 +142,7 @@ function Carousel({ items, renderItem, perPageConfig, dotsId }) {
 export default function Tecnologia() {
   const { data, loading, error } = useProducts({ category: "tecnologia" });
   const catalogoId = "catalogo-tecnologia";
-  const [tab, setTab] = useState("recien"); // recien | vendidos | oferta
+  const [tab, setTab] = useState("recien");
   const [quick, setQuick] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [showAllPosts, setShowAllPosts] = useState(false);
@@ -103,6 +154,22 @@ export default function Tecnologia() {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
+
+    if (typeof window !== "undefined") {
+      setTimeout(() => {
+        const headerEl = document.getElementById("blog-tech-header");
+        if (headerEl) {
+          const rect = headerEl.getBoundingClientRect();
+          const offset = 80;
+          window.scrollTo({
+            top: rect.top + window.scrollY - offset,
+            behavior: "smooth",
+          });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }, 0);
+    }
   };
 
   const handleBackToBlog = () => {
@@ -445,12 +512,11 @@ export default function Tecnologia() {
     },
   ];
 
-  // Si hay un post seleccionado, mostrar vista individual
   if (selectedPost) {
     return (
-      <div className="bg-white dark:bg-[#0b0913] dark:text-gray-100 min-h-screen transition-colors">
+      <div className="bg-[#e5e7eb] dark:bg-[#05040a] dark:text-gray-100 min-h-screen transition-colors">
         {/* Header del post */}
-        <div className="relative">
+        <div id="blog-tech-header" className="relative">
           <img
             src={selectedPost.img}
             alt={selectedPost.title}
@@ -526,7 +592,7 @@ export default function Tecnologia() {
   }
 
   return (
-    <div className="bg-white dark:bg-[#0b0913] dark:text-gray-100 transition-colors">
+    <div className="bg-[#e5e7eb] dark:bg-[#05040a] dark:text-gray-100 transition-colors">
       {/* Hero con video */}
       <section className="relative overflow-hidden min-h-[calc(100vh-8rem)] flex items-center">
         <video
@@ -560,8 +626,7 @@ export default function Tecnologia() {
         </div>
       </section>
 
-      {/* Botón Ver todos al inicio */}
-      <div className="bg-white dark:bg-[#0b0913] transition-colors">
+      <div className="bg-[#e5e7eb] dark:bg-transparent transition-colors">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-end">
           <button
             type="button"
@@ -573,9 +638,9 @@ export default function Tecnologia() {
         </div>
       </div>
 
-      {/* Ofertas diarias*/}
+      {/* Ofertas diarias */}
       {data.length > 0 && (
-        <section className="bg-white dark:bg-[#0f0c19] transition-colors">
+        <section className="bg-[#e5e7eb] dark:bg-[#05040a] transition-colors">
           <div className="max-w-6xl mx-auto px-4 py-12 text-zinc-900 dark:text-zinc-100">
             <div className="flex items-center justify-center gap-6 mb-6">
               <span className="h-px w-16 bg-black/60 dark:bg-white/40" />
@@ -650,7 +715,6 @@ export default function Tecnologia() {
         />
       </div>
 
-      {/* Blog / noticias - Mejorado */}
       <section className="max-w-6xl mx-auto px-4 mb-12">
         {/* Header del blog */}
         <div className="text-center mb-12">
@@ -663,7 +727,7 @@ export default function Tecnologia() {
           </p>
         </div>
 
-        {/* Grid de posts del blog */}
+        {/* Grid de posts para el blog */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {(showAllPosts ? blogPosts : blogPosts.slice(0, 6)).map(
             (post, idx) => (

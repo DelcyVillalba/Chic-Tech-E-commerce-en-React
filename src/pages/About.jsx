@@ -1,7 +1,10 @@
+import BackButton from "../components/BackButton";
+
 export default function About() {
   return (
-    <main className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-3">Sobre nosotros</h1>
+    <main className="max-w-4xl mx-auto p-4 space-y-3 sm:space-y-4">
+      <BackButton />
+      <h1 className="text-2xl font-semibold">Sobre nosotros</h1>
       <p className="mb-4 opacity-80">
         En <strong>Chic &amp; Tech</strong> combinamos moda y tecnología en un
         solo lugar. Nuestro objetivo es ofrecer un catálogo seleccionado con prendas,

@@ -158,7 +158,7 @@ export default function ProductForm() {
         {err && <div className="text-red-600 mb-2">Error: {err}</div>}
         <form
           onSubmit={onSubmit}
-          className="space-y-3 border border-zinc-200 dark:border-[#2a2338] rounded-2xl p-4 bg-gray-50 dark:bg-[#2a2338]"
+          className="space-y-3 border border-zinc-300 dark:border-[#2a2338] rounded-2xl p-4 bg-[#e5e7eb] dark:bg-[#131121] shadow-sm"
         >
           <input
             className="w-full border border-zinc-200 dark:border-[#2a2338] bg-white dark:bg-[#0f0b14] rounded px-3 py-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"

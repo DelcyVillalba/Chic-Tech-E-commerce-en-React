@@ -15,7 +15,6 @@ function ScrollManager() {
   }, []);
 
   useEffect(() => {
-    // En cada cambio de ruta, empezamos desde arriba.
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -29,14 +28,14 @@ export default function Layout() {
   const footerText = settings?.footerText || "© Chic & Tech";
 
   return (
-    <div className="min-h-dvh flex flex-col dark:bg-[#0b0913] dark:text-zinc-100 transition-colors duration-500">
+    <div className="min-h-dvh flex flex-col bg-[#e5e7eb] text-zinc-900 dark:bg-[#05040a] dark:text-zinc-100 transition-colors duration-500">
       <ScrollManager />
       <Navbar />
       {!isAdmin && <GlobalFilterBar />}
       <div className="flex-1">
         <Outlet />
       </div>
-      <footer className="border-t border-zinc-200/60 dark:border-[#1f1a2e] p-4 text-center text-sm bg-white dark:bg-[#0d0a18]/80 backdrop-blur">
+      <footer className="border-t border-zinc-200/60 dark:border-[#1f1a2e] p-4 text-center text-sm bg-[#e5e7eb] dark:bg-[#05040a]/90 backdrop-blur">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
           <span>{footerText}</span>
           <nav className="flex gap-4">

@@ -10,7 +10,6 @@ export default function AdminLoginModal({ open, onClose }) {
   const { login } = useAuth();
   const nav = useNavigate();
 
-  // Limpiar cuando se cierra
   const reset = () => {
     setEmail("");
     setPassword("");

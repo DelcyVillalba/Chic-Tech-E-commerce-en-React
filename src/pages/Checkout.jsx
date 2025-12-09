@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { simulatePayment } from "../api/payments";
 import { formatARS } from "../utils/format";
 import Loader from "../components/Loader";
+import BackButton from "../components/BackButton";
 
 const envioOpciones = [
   { id: "tienda", label: "Retiro en tienda", desc: "¡Gratis!" },
@@ -96,7 +97,6 @@ export default function Checkout() {
     setErr("");
     setEnviando(true);
     try {
-      // Solo enviamos datos mínimos; el backend recalcula precios y totales
       const { order } = await simulatePayment({
         user: { email: form.email, name: `${form.nombre} ${form.apellido}` },
         envio: form.envio,
@@ -127,6 +127,7 @@ export default function Checkout() {
   return (
     <>
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+      <BackButton fallback="/cart" />
       <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold overflow-x-auto pb-2">
         <span
           className={`whitespace-nowrap ${
@@ -207,7 +208,7 @@ export default function Checkout() {
                   Ingresá tu correo
                 </h3>
                 <input
-                  className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                  className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   placeholder="Correo electrónico"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -220,13 +221,13 @@ export default function Checkout() {
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
-                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     placeholder="Nombre *"
                     value={form.nombre}
                     onChange={(e) => setForm({ ...form, nombre: e.target.value })}
                   />
                   <input
-                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     placeholder="Apellidos *"
                     value={form.apellido}
                     onChange={(e) => setForm({ ...form, apellido: e.target.value })}
@@ -234,20 +235,20 @@ export default function Checkout() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
-                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     placeholder="Documento *"
                     value={form.documento}
                     onChange={(e) => setForm({ ...form, documento: e.target.value })}
                   />
                   <input
-                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     placeholder="Celular *"
                     value={form.celular}
                     onChange={(e) => setForm({ ...form, celular: e.target.value })}
                   />
                 </div>
                 <input
-                  className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none disabled:bg-zinc-100 disabled:opacity-60 bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                  className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none disabled:bg-zinc-100 disabled:opacity-60 bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   placeholder="Dirección *"
                   value={form.direccion}
                   onChange={(e) => setForm({ ...form, direccion: e.target.value })}
@@ -255,20 +256,20 @@ export default function Checkout() {
                 />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
-                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     placeholder="Entre calles (opcional)"
                     value={form.entreCalles}
                     onChange={(e) => setForm({ ...form, entreCalles: e.target.value })}
                   />
                   <input
-                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                    className="border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     placeholder="Piso/Depto (opcional)"
                     value={form.piso}
                     onChange={(e) => setForm({ ...form, piso: e.target.value })}
                   />
                 </div>
                 <textarea
-                  className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#f5c7d6] focus:border-[#c2185b] outline-none resize-none bg-white dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                  className="w-full border border-zinc-200 dark:border-[#2a2338] rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#e5e7eb] dark:focus:ring-[#c2185b]/40 focus:border-[#c2185b] outline-none resize-none bg-[#f3f4f6] dark:bg-[#0f0b14] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   placeholder="Información adicional"
                   rows="3"
                   value={form.info}
@@ -293,7 +294,7 @@ export default function Checkout() {
           )}
           {step === 2 && (
             <form onSubmit={confirmar} className="space-y-4">
-              <div className="border rounded-2xl p-4 space-y-3 bg-white dark:bg-[#111023]">
+              <div className="border border-zinc-200 dark:border-[#2a2338] rounded-2xl p-4 space-y-3 bg-white dark:bg-[#111023]">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400">Chic &amp; Tech</p>
@@ -436,7 +437,7 @@ export default function Checkout() {
           )}
         </div>
 
-        <aside className="border border-zinc-200 rounded-xl p-4 sm:p-6 h-max sticky top-24 lg:top-20 space-y-4">
+        <aside className="border border-zinc-200 dark:border-[#2a2338] rounded-2xl bg-white dark:bg-[#131121] shadow-sm p-4 sm:p-6 h-max sticky top-24 lg:top-20 space-y-4">
           <h3 className="text-base sm:text-lg font-semibold">Resumen de compra</h3>
           <ul className="space-y-2 text-sm">
             {cart.map((p) => (
@@ -474,9 +475,11 @@ export default function Checkout() {
           ✔️
         </div>
         <div>
-          <p className="font-semibold">Pago confirmado</p>
+          <p className="font-semibold">¡Felicidades! Tu pedido está en proceso</p>
           <p className="text-xs text-emerald-800">
-            Tu pedido fue enviado. Te llegará un correo con el detalle del pago.
+            {lastOrder?.envio === "tienda"
+              ? "En las próximas horas estaremos preparando tu compra. Vas a recibir un correo con los pasos para pasar a retirarla por la tienda."
+              : "En las próximas horas estaremos preparando tu compra. Vas a recibir un correo con el detalle del envío a tu domicilio."}
           </p>
         </div>
       </div>

@@ -22,7 +22,7 @@ export default function DealCard({ product, onQuickView }) {
       className="
             group relative bg-white dark:bg-[#131121] rounded-lg
             border border-zinc-200/70 dark:border-[#2a2338] hover:border-zinc-300 dark:hover:border-[#3c3352]
-            transition-all overflow-hidden flex flex-col h-[440px] sm:h-[480px] shadow-sm hover:shadow-md dark:shadow-glow-dark
+            transition-colors overflow-hidden flex flex-col h-[380px] sm:h-[440px] shadow-sm hover:shadow-md dark:shadow-none
         "
     >
       {(hasDiscount || isNew) && (
@@ -40,7 +40,7 @@ export default function DealCard({ product, onQuickView }) {
         </div>
       )}
 
-      <div className="relative bg-gray-200 dark:bg-[#1c1828] overflow-hidden flex-1 h-56 sm:h-64">
+      <div className="relative bg-gray-200 dark:bg-[#1c1828] overflow-hidden flex-1 h-32 sm:h-56">
         <Link to={`/product/${id}`} className="block h-full">
           <img
             src={image}

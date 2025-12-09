@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useBusinessSettings } from "../context/BusinessSettingsContext";
+import BackButton from "../components/BackButton";
 
 const bloques = [
   {
@@ -72,7 +73,10 @@ export default function Contact() {
 
   if (sent) {
     return (
-      <main className="max-w-4xl mx-auto p-6 text-center bg-white dark:bg-[#0b0913] dark:text-gray-100 transition-colors">
+      <main className="max-w-4xl mx-auto p-6 text-center bg-white dark:bg-[#0b0913] dark:text-gray-100 transition-colors space-y-4">
+        <div className="text-left">
+          <BackButton />
+        </div>
         <h1 className="text-3xl font-semibold mb-3">¡Mensaje enviado!</h1>
         <p className="text-gray-600 dark:text-gray-300">
           Gracias por contactarte. Te responderemos a la brevedad.
@@ -99,6 +103,7 @@ export default function Contact() {
   return (
     <main className="bg-[#fff5f9] dark:bg-[#0b0913] dark:text-gray-100 transition-colors">
       <section className="max-w-5xl mx-auto px-4 py-10 space-y-8">
+        <BackButton />
         <div className="text-center space-y-2">
           <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">
             ¿Tienes alguna pregunta?

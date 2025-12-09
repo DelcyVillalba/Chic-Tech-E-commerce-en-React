@@ -11,13 +11,11 @@ export default function QuickViewModal({ product, onClose }) {
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
-    // bloquear scroll del body
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => (document.body.style.overflow = prev);
   }, []);
 
-  // cerrar con ESC
   useEffect(() => {
     const onKey = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
@@ -74,16 +72,16 @@ export default function QuickViewModal({ product, onClose }) {
                 {description}
               </p>
 
-              <div className="flex items-center gap-3 flex-wrap">
-                <div className="flex items-center border rounded">
+              <div className="flex items-center gap-3 flex-wrap text-xs sm:text-sm">
+                <div className="flex items-center border rounded text-xs sm:text-sm">
                   <button
-                    className="px-3 py-1"
+                    className="px-2 sm:px-3 py-1"
                     onClick={() => setQty((q) => Math.max(1, q - 1))}
                   >
                     −
                   </button>
                   <input
-                    className="w-12 text-center"
+                    className="w-10 sm:w-12 text-center text-xs sm:text-sm"
                     type="number"
                     min={1}
                     value={qty}
@@ -92,20 +90,20 @@ export default function QuickViewModal({ product, onClose }) {
                     }
                   />
                   <button
-                    className="px-2 py-2"
+                    className="px-2 sm:px-3 py-1.5"
                     onClick={() => setQty((q) => q + 1)}
                   >
                     +
                   </button>
                 </div>
                 <button
-                  className="bg-[#c2185b] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[#a3154a] transition-colors"
+                  className="bg-[#c2185b] text-white px-3 sm:px-5 py-2 rounded-lg font-semibold hover:bg-[#a3154a] transition-colors text-xs sm:text-sm"
                   onClick={addToCart}
                 >
                   Añadir al carrito 🛒
                 </button>
                 <button
-                  className="border border-[#c2185b] text-[#c2185b] px-4 py-2.5 rounded-lg font-semibold hover:bg-[#c2185b] hover:text-white transition-colors"
+                  className="border border-[#c2185b] text-[#c2185b] px-3 sm:px-4 py-2 rounded-lg font-semibold hover:bg-[#c2185b] hover:text-white transition-colors text-xs sm:text-sm"
                   onClick={() => toggle(product)}
                   title="Añadir a la lista de deseos"
                 >
