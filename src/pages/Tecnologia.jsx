@@ -146,6 +146,7 @@ export default function Tecnologia() {
   const [quick, setQuick] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [showAllPosts, setShowAllPosts] = useState(false);
+  const [scrollToBlogAfterClose, setScrollToBlogAfterClose] = useState(false);
 
   const scrollToCatalogo = () => {
     const el = document.getElementById(catalogoId);
@@ -173,12 +174,26 @@ export default function Tecnologia() {
   };
 
   const handleBackToBlog = () => {
+    // Cerrar el post y marcar que debemos volver a la sección Blog Tech
     setSelectedPost(null);
+    setScrollToBlogAfterClose(true);
   };
 
   const handleShowAllPosts = () => {
     setShowAllPosts(true);
   };
+
+  // Después de cerrar un post, desplazarse hasta el encabezado de Blog Tech
+  useEffect(() => {
+    if (!scrollToBlogAfterClose || selectedPost) return;
+    if (typeof window === "undefined") return;
+
+    const headerEl = document.getElementById("blog-tech-header");
+    if (headerEl) {
+      headerEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    setScrollToBlogAfterClose(false);
+  }, [scrollToBlogAfterClose, selectedPost]);
 
   if (loading) return <Loader />;
   if (error) return <ErrorState message={error} />;
@@ -525,25 +540,6 @@ export default function Tecnologia() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
             <div className="max-w-4xl mx-auto">
-              <button
-                onClick={handleBackToBlog}
-                className="mb-4 inline-flex items-center text-white/80 hover:text-white transition-colors"
-              >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                Volver al blog
-              </button>
               <div className="flex items-center gap-4 mb-4">
                 <span className="bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full">
                   {selectedPost.category}
@@ -717,7 +713,7 @@ export default function Tecnologia() {
 
       <section className="max-w-6xl mx-auto px-4 mb-12">
         {/* Header del blog */}
-        <div className="text-center mb-12">
+        <div id="blog-tech-header" className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Blog Tech
           </h2>

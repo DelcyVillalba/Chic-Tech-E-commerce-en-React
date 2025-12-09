@@ -25,16 +25,25 @@ export default function FAQ() {
   ];
 
   return (
-    <main className="max-w-3xl mx-auto p-4 space-y-3 sm:space-y-4">
-      <BackButton />
-      <h1 className="text-2xl font-semibold">Preguntas frecuentes</h1>
-      <div className="space-y-3">
-        {faqs.map((item, idx) => (
-          <details key={idx} className="border rounded-2xl p-4">
-            <summary className="cursor-pointer font-medium">{item.q}</summary>
-            <p className="mt-2 opacity-80">{item.a}</p>
-          </details>
-        ))}
+    <main className="bg-[#e5e7eb] dark:bg-[#05040a] dark:text-gray-100 transition-colors">
+      <div className="max-w-3xl mx-auto px-4 py-8 sm:py-10">
+        <div className="bg-white dark:bg-[#0b0913] border border-zinc-200 dark:border-[#2a2338] rounded-2xl shadow-sm p-5 sm:p-6 space-y-4">
+          <BackButton />
+          <h1 className="text-2xl font-semibold">Preguntas frecuentes</h1>
+          <div className="space-y-3">
+            {faqs.map((item, idx) => (
+              <details
+                key={idx}
+                className="border border-zinc-200 dark:border-[#2a2338] rounded-2xl p-4 bg-white dark:bg-[#161225]"
+              >
+                <summary className="cursor-pointer font-medium">
+                  {item.q}
+                </summary>
+                <p className="mt-2 opacity-80 text-sm">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
       </div>
     </main>
   );
